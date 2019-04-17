@@ -1,8 +1,8 @@
-# deps:
-#   pkg.installed
-#     - pkgs:
-#       - zsh
-#       - antibody
+deps:
+  pkg.installed:
+    - pkgs:
+      - zsh
+      - antibody
 
 zshrc:
   file.managed:
