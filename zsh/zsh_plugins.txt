@@ -1,5 +1,6 @@
 djui/alias-tips
 zsh-users/zsh-completions
+zsh-users/zsh-autosuggestions
 jreese/zsh-titles
 zsh-users/zsh-syntax-highlighting
 zsh-users/zsh-history-substring-search
@@ -7,3 +8,5 @@ zsh-users/zsh-history-substring-search
 # Themem
 #romkatv/powerlevel10k
 denysdovhan/spaceship-prompt
+#tylerreckart/hyperzsh
+#halfo/lambda-mod-zsh-theme
