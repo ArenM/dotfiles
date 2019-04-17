@@ -1,0 +1,3 @@
+# todo
+terminal:
+alacritty
