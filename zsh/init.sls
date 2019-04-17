@@ -3,6 +3,7 @@ deps:
     - pkgs:
       - zsh
       - antibody
+      - ttf-hack
 
 zshrc:
   file.managed:

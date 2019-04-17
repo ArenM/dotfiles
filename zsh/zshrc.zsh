@@ -4,7 +4,6 @@ source <(antibody init)
 # Plugins
 antibody bundle < ~/.zsh_plugins
 
-
 # Themes
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
