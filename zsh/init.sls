@@ -1,11 +1,11 @@
-deps:
+zsh-install:
   pkg.installed:
     - pkgs:
       - zsh
       - antibody
       - ttf-hack
 
-zshrc:
+zsh-zshrc:
   file.managed:
     - name: {{ grains.homedir }}/.zshrc
     - source: salt://zsh/zshrc.zsh

@@ -1,7 +1,9 @@
-# Todo
-terminal:
-alacritty
+# Configured Programs
+ - zsh
+ - alacritty terminal
 
+
+# Todo
 Packages:
 cups
 iotop
