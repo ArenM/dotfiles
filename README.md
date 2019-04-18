@@ -1,10 +1,9 @@
 # Configured Programs
  - zsh
  - alacritty terminal
+ - earlyoom
 
 
 # Todo
 Packages:
-cups
-iotop
-earlyoom
+*none at the momment*

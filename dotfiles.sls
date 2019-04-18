@@ -1,3 +1,4 @@
 include:
   - zsh
   - terminal
+  - earlyoom
