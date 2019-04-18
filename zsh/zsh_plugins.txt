@@ -6,7 +6,7 @@ zsh-users/zsh-syntax-highlighting
 zsh-users/zsh-history-substring-search
 
 # Themem
-#romkatv/powerlevel10k
-denysdovhan/spaceship-prompt
+romkatv/powerlevel10k
+#denysdovhan/spaceship-prompt
 #tylerreckart/hyperzsh
 #halfo/lambda-mod-zsh-theme
