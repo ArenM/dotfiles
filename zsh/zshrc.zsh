@@ -10,6 +10,8 @@ compinit -D
 
 bindkey "^[[A" history-substring-search-up # Up Arrow
 bindkey "^[[B" history-substring-search-down # Down Arrow
+bindkey "^[[1;5D" backward-word # Crtl Left Arrow
+bindkey "^[[1;5C" forward-word # Crtl Right Arrow
 
 # History
 export HISTFILE="$HOME/.zsh_history"
