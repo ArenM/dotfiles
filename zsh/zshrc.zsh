@@ -9,10 +9,12 @@ source "$HOME/.zsh_plugins.sh"
 autoload -Uz compinit
 compinit -D
 
-bindkey "^[[A" history-substring-search-up # Up Arrow
-bindkey "^[[B" history-substring-search-down # Down Arrow
-bindkey "^[[1;5D" backward-word # Crtl Left Arrow
-bindkey "^[[1;5C" forward-word # Crtl Right Arrow
+bindkey "^[[A"    history-substring-search-up	# Up Arrow
+bindkey "^[[B"    history-substring-search-down	# Down Arrow
+bindkey "^[[1;5D" backward-word			# Crtl Left Arrow
+bindkey "^[[1;5C" forward-word			# Crtl Right Arrow
+bindkey "^[[H"    beginning-of-line		# Home
+bindkey "^[[F"    end-of-line			# End
 
 # History
 export HISTFILE="$HOME/.zsh_history"
