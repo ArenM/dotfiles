@@ -1,8 +1,9 @@
 # Antibody
-source <(antibody init)
+#source <(antibody init)
 
 # Plugins
-antibody bundle < ~/.zsh_plugins
+#antibody bundle < ~/.zsh_plugins
+source "$HOME/.zsh_plugins.sh"
 
 # Interaction
 autoload -Uz compinit
