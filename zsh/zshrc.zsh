@@ -2,7 +2,7 @@
 #source <(antibody init)
 
 # Plugins
-#antibody bundle < ~/.zsh_plugins
+export POWERLEVEL9K_IGNORE_TERM_COLORS=true
 source "$HOME/.zsh_plugins.sh"
 
 # Interaction
@@ -20,9 +20,11 @@ bindkey "^[[F"    end-of-line			# End
 export HISTFILE="$HOME/.zsh_history"
 export HISTSIZE=50000
 export SAVEHIST=50000
+setopt HIST_IGNORE_DUPS
 setopt sharehistory
 setopt hist_expire_dups_first
 
 # Enviroment
 export EDITOR=vim
+export PATH="$PATH:$HOME/.npm-packages/bin"
 alias open="xdg-open"
