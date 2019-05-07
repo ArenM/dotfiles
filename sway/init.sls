@@ -29,3 +29,7 @@ i3blocks-blocklets:
   file.recurse:
     - name: {{ grains.homedir }}/.config/i3blocks/blocklets
     - source: salt://sway/blocklets
+    - user: {{ grains.user }}
+    - group: {{ grains.user }}
+    - file_mode: 0755
+

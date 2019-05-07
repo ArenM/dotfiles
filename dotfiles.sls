@@ -4,3 +4,4 @@ include:
   - terminal
   - earlyoom
   - sway
+  - rofi

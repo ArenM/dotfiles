@@ -65,6 +65,13 @@ input "2:8:AlpsPS/2_ALPS_GlidePoint" {
     scroll_method edge
     events enabled
 }
+
+input "type:touchpad" {
+    tap enabled
+    scroll_method edge
+    events enabled
+}
+
 ### Startup Configuration
 exec redshift -m wayland
 
