@@ -6,7 +6,7 @@ t413/zsh-background-notify
 zsh-users/zsh-syntax-highlighting
 zsh-users/zsh-history-substring-search
 
-# Themem
+# Theme
 romkatv/powerlevel10k
 #bhilburn/powerlevel9k
 #denysdovhan/spaceship-prompt

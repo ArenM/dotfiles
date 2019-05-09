@@ -3,7 +3,14 @@ vim-vimrc:
     - name: {{ grains.homedir }}/.vimrc
     - source: salt://vim/vimrc
 
-vim-ale:
+vim-plug:
+  cmd.run:
+    - name: curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    - runas:  {{ grains.user }}
+
+vim-plug-plugins:
+  cmd.run:
+    - name: vim +"PlugInstall --sync" +qa
   file.managed:
     - name: {{ grains.homedir }}/.vim/plugged/ale/ftplugin/javascript.vim
     - source: salt://vim/ale/javascript.vim

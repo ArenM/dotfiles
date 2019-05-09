@@ -2,7 +2,8 @@
 #source <(antibody init)
 
 # Plugins
-antibody bundle < ~/.zsh_plugins
+#antibody bundle < ~/.zsh_plugins
+source $HOME/.zsh_plugins.sh
 export POWERLEVEL9K_IGNORE_TERM_COLORS=true
 
 # Interaction

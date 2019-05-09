@@ -18,3 +18,4 @@ zsh-plugins:
 zsh-antibody:
   cmd.run:
     - name: antibody bundle < "$HOME/.zsh_plugins" > "$HOME/.zsh_plugins.sh"
+    - runas: {{ grains.user }}
