@@ -1,0 +1,25 @@
+set nocompatible
+
+" configure nice defaults
+syntax enable
+filetype plugin on
+set number
+set wildmenu
+
+call plug#begin('~/.vim/plugged')
+  Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+  Plug 'w0rp/ale'
+  "Plug 'Shougo/deoplete.nvim'
+  "Plug 'roxma/nvim-yarp'
+  "Plug 'roxma/vim-hug-neovim-rpc'
+call plug#end()
+
+"let g:deoplete#enable_at_startup = 1
+
+
+autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
+autocmd FileType go setlocal expandtab shiftwidth=4 softtabstop=4
+
+" set expandtab
+" set shiftwidth=2
+" set softtabstop=2
