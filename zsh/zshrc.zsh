@@ -29,3 +29,5 @@ setopt hist_expire_dups_first
 export EDITOR=vim
 export PATH="$PATH:$HOME/.npm-packages/bin"
 alias open="xdg-open"
+alias ls="ls --color"
+alias ll="ls -alh"
