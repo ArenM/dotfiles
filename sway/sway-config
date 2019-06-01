@@ -75,6 +75,9 @@ input "type:touchpad" {
 ### Startup Configuration
 exec redshift -m wayland
 
+### Appearance
+font pango:FontAwesome Regular 12px, Hack Regular 12px
+
 ### Key bindings
 #
 # Basics:
@@ -222,7 +225,6 @@ bar {
     position bottom
     pango_markup enabled
     status_command SCRIPT_DIR=$HOME/.config/i3blocks/blocklets i3blocks
-    #font pango:FontAwesome Regular 12px, Terminus Bold 15px
     colors {
         statusline #ffffff
         background #323232
