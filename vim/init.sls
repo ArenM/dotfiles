@@ -12,6 +12,7 @@ vim-plug:
   file.managed:
     - source: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     - name: {{ grains.homedir}}/.vim/autoload/plug.vim
+    - skip_verify: True
     - user:   {{ grains.user }}
     - group:  {{ grains.user }}
 

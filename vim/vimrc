@@ -12,6 +12,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'Shougo/deoplete.nvim'
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
+  Plug 'posva/vim-vue'
+  Plug 'ctrlpvim/ctrlp.vim'
 call plug#end()
 
 let g:deoplete#enable_at_startup = 1
@@ -20,6 +22,11 @@ call deoplete#custom#option('sources', {
 \ '_': ['ale', 'buffer'],
 \})
 
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v(node_modules|[\/]\.(git|hg|svn))$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
 
 autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
 autocmd FileType go setlocal expandtab shiftwidth=4 softtabstop=4
