@@ -3,11 +3,6 @@ vim-vimrc:
     - name: {{ grains.homedir }}/.vimrc
     - source: salt://vim/vimrc
 
-#vim-plug:
-#  cmd.run:
-#    - name:  curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-#    - runas: {{ grains.user }}
-
 vim-plug:
   file.managed:
     - source: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -16,9 +11,18 @@ vim-plug:
     - user:   {{ grains.user }}
     - group:  {{ grains.user }}
 
+# TODO: install pynvim
+
 vim-plug-plugins:
   cmd.run:
     - name: vim +"PlugInstall --sync" +qa
+{{ grains.homedir }}/.vim/plugged/ale/ftplugin/javascript.vim:
   file.managed:
-    - name:   {{ grains.homedir }}/.vim/plugged/ale/ftplugin/javascript.vim
     - source: salt://vim/ale/javascript.vim
+{{ grains.homedir }}/.vim/plugged/ale/ftplugin/python.vim:
+  file.managed:
+    - source: salt://vim/ale/python.vim
+{{ grains.homedir }}/.vim/plugged/ale/ftplugin/vue.vim:
+  file.managed:
+    - source: salt://vim/ale/vue.vim
+
