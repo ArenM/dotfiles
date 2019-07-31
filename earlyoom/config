@@ -16,6 +16,6 @@
 # EARLYOOM_ARGS="-m 15 -s 5"
 
 # Avoid killing processes whose name matches this regexp
-EARLYOOM_ARGS="-m 5 --avoid '(^|/)(init|sshd)$'"
+EARLYOOM_ARGS="-m 5 --avoid '(^|/)(init|sshd)$' -r 120"
 
 # See more at `earlyoom -h'

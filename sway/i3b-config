@@ -99,6 +99,12 @@ label=<tt></tt>
 #instance=0
 interval=5
 
+[custom_updates]
+command=tail -F "/var/log/avalible-update-count"
+interval=persist
+markup=pango
+label=
+
 # Date Time
 #
 [time]

@@ -1,0 +1,8 @@
+[Timer]
+OnActiveSec=3600
+Presistant=true
+Unit=packagekit-autoupdate.service
+OnCalender=3h
+
+[Install]
+WantedBy=timers.target
