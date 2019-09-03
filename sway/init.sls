@@ -13,7 +13,9 @@ sway-config:
   file.managed:
     - name: {{ grains.homedir }}/.config/sway/config
     - source: salt://sway/sway-config
-
+    - template: jinja
+    - defaults:
+      theme: {{ grains.theme }}
 {{ grains.homedir }}/.config/i3blocks/blocklets:
   file.directory:
     - user: {{ grains.user }}

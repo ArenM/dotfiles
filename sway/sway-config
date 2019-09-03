@@ -14,7 +14,7 @@ set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-set $term alacritty
+set $term termite
 # Your preferred application launcher
 # Note: it's recommended that you pass the final command to sway
 set $menu rofi -show drun -show-icons | swaymsg exec
@@ -74,8 +74,12 @@ input "type:touchpad" {
 
 ### Startup Configuration
 exec redshift -m wayland
+exec nextcloud
 
 ### Appearance
+set $base16theme {{ theme }} 
+include ./base16-i3/colors/base16-$base16theme.config
+include ./base16-i3/client-properties/base16-$base16theme.config
 font pango:FontAwesome Regular 12px, Hack Regular 12px
 
 ### Key bindings
@@ -225,11 +229,25 @@ bar {
     position bottom
     pango_markup enabled
     status_command SCRIPT_DIR=$HOME/.config/i3blocks/blocklets i3blocks
+
     colors {
-        statusline #ffffff
-        background #323232
-        inactive_workspace #32323200 #32323200 #5c5c5c
+        background $base00
+        separator  $base01
+        statusline $base04
+
+        # State             Border  BG      Text
+        focused_workspace   $base05 $base0D $base00
+        active_workspace    $base05 $base03 $base00
+        inactive_workspace  $base03 $base01 $base05
+        urgent_workspace    $base08 $base08 $base00
+        binding_mode        $base00 $base0A $base00
     }
+
+    #colors {
+    #    statusline #ffffff
+    #    background #323232
+    #    inactive_workspace #32323200 #32323200 #5c5c5c
+    #}
 }
 
 include /etc/sway/config.d/*
