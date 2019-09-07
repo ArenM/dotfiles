@@ -25,4 +25,10 @@ vim-plug-plugins:
 {{ grains.homedir }}/.vim/plugged/ale/ftplugin/vue.vim:
   file.managed:
     - source: salt://vim/ale/vue.vim
+{{ grains.homedir }}/.vim/plugged/ale/ftplugin/html.vim:
+  file.managed:
+    - source: salt://vim/ale/html.vim
+{{ grains.homedir }}/.vim/plugged/ale/ftplugin/css.vim:
+  file.managed:
+    - source: salt://vim/ale/css.vim
 
