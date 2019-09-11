@@ -16,6 +16,14 @@ sway-config:
     - template: jinja
     - defaults:
       theme: {{ grains.theme }}
+
+sway-themes:
+  git.latest:
+    - target: {{ grains.homedir }}/.config/sway/base16-sway
+    - name: https://github.com/rkubosz/base16-sway.git
+    - force_clone: True
+    - user: {{ grains.user }}
+
 {{ grains.homedir }}/.config/i3blocks/blocklets:
   file.directory:
     - user: {{ grains.user }}

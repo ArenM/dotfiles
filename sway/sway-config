@@ -78,8 +78,7 @@ exec nextcloud
 
 ### Appearance
 set $base16theme {{ theme }} 
-include ./base16-i3/colors/base16-$base16theme.config
-include ./base16-i3/client-properties/base16-$base16theme.config
+include ./base16-sway/themes/base16-$base16theme.config
 font pango:FontAwesome Regular 12px, Hack Regular 12px
 
 ### Key bindings
@@ -242,12 +241,12 @@ bar {
         urgent_workspace    $base08 $base08 $base00
         binding_mode        $base00 $base0A $base00
     }
-
-    #colors {
-    #    statusline #ffffff
-    #    background #323232
-    #    inactive_workspace #32323200 #32323200 #5c5c5c
-    #}
 }
+
+#                       Border  BG      Text    Ind     Child Border
+client.focused          $base05 $base0D $base00 $base0D $base0D
+client.focused_inactive $base01 $base01 $base05 $base03 $base01
+client.unfocused        $base01 $base00 $base05 $base01 $base01
+client.urgent           $base08 $base08 $base00 $base08 $base08
 
 include /etc/sway/config.d/*
