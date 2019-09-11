@@ -18,7 +18,7 @@
 # urgent
 
 # Global properties
-command=/usr/lib/i3blocks/$BLOCK_NAME
+command=$HOME/.config/i3blocks/blocklets/$BLOCK_NAME/$BLOCK_NAME
 #separator_block_width=15
 markup=pango
 interval=5
