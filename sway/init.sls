@@ -16,6 +16,7 @@ sway-config:
     - template: jinja
     - defaults:
       theme: {{ grains.theme }}
+      terminal: {{ 'alcritty' if grains.gles3 else 'termite' }}
 
 sway-themes:
   git.latest:
