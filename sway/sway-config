@@ -225,9 +225,7 @@ bindsym $mod+r mode "resize"
 #
 # Read `man 5 sway-bar` for more information about this section.
 bar {
-    position bottom
-    pango_markup enabled
-    status_command SCRIPT_DIR=$HOME/.config/i3blocks/blocklets i3blocks
+    swaybar_command waybar
 
     colors {
         background $base00
