@@ -17,3 +17,10 @@
     - defaults:
       theme: {{ grains.theme }}
 
+sway-themes:
+  git.latest:
+    - target: {{ grains.homedir }}/.config/waybar/base16-waybar
+    - name: https://github.com/mnussbaum/base16-waybar.git
+    - force_clone: True
+    - user: {{ grains.user }}
+
