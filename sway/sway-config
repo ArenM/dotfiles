@@ -17,7 +17,8 @@ set $right l
 set $term {{ terminal }}
 # Your preferred application launcher
 # Note: it's recommended that you pass the final command to sway
-set $menu rofi -show drun -show-icons | swaymsg exec
+#set $menu rofi -show drun -show-icons | swaymsg exec
+set $menu wofi --show drun --allow-images --allow-markup | swaymsg exec
 
 ### Output configuration
 #
@@ -38,10 +39,11 @@ output LVDS-1 position 0,0
 # Example configuration:
 #
 exec swayidle \
-#    timeout 300 'swaylock -c 000000' \
-#    timeout 600 'swaymsg "output * dpms off"' \
-#       resume 'swaymsg "output * dpms on"' \
+    timeout 65 'systemctl suspend' \
+    timeout 35 'swaymsg "output * dpms off"' \
+       resume 'swaymsg "output * dpms on"' \
     before-sleep 'swaylock -c 000000'
+    #timeout 30 'swaylock -c 000000' \
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 600 seconds, and turn your screens back on when
