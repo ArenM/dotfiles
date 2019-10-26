@@ -2,17 +2,14 @@
 
 * {
   border: none;
-  border-radius: 0;
+  border-radius: 5px;
   font-family: "Font Awesome 5 Free", Roboto, Helvetica, Arial, sans-serif;
-  /*font-family: "Font Awesome 5 Free", monospace;*/
   font-size: 13px;
   min-height: 0;
 }
 
 window#waybar {
-  /*background-color: rgba(43, 48, 59, 0.5);*/
-  background-color: @base07;
-  border-bottom: 3px solid rgba(100, 114, 125, 0.5);
+  background-color: @base03;
   color: #ffffff;
   transition-property: background-color;
   transition-duration: 0.5s;
@@ -22,23 +19,9 @@ window#waybar.hidden {
   opacity: 0.2;
 }
 
-/*
-window#waybar.empty {
-    background-color: transparent;
-}
-window#waybar.solo {
-    background-color: #FFFFFF;
-}
-*/
-
-window#waybar.termite {
-  background-color: #3f3f3f;
-}
-
-window#waybar.chromium {
-  background-color: #000000;
-  border: none;
-}
+/*window#waybar.empty {
+  background-color: transparent;
+}*/
 
 #workspaces button {
   padding: 0 5px;
@@ -69,6 +52,7 @@ window#waybar.chromium {
 }
 
 #clock,
+#disk,
 #battery,
 #cpu,
 #memory,
@@ -86,6 +70,10 @@ window#waybar.chromium {
 }
 
 #clock {
+  background-color: #64727d;
+}
+
+#disk {
   background-color: #64727d;
 }
 
