@@ -1,10 +1,3 @@
-zsh-install:
-  pkg.installed:
-    - pkgs:
-      - zsh
-      - antibody
-      - ttf-hack
-
 zsh-zshrc:
   file.managed:
     - name: {{ grains.homedir }}/.zshrc

@@ -1,8 +1,3 @@
-terminal-install:
-  pkg.installed:
-    - pkgs:
-      - alacritty
-
 terminal-config-dir:
   file.directory:
     - name: {{ grains.homedir }}/.config/alacritty

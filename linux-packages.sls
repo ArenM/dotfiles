@@ -8,3 +8,9 @@ packages:
       - ttf-font-awesome
       - rofi
       - acpi
+      - sway-git
+      - i3blocks
+      - alacritty
+      - zsh
+      - antibody
+      - ttf-hack

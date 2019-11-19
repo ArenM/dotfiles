@@ -1,9 +1,3 @@
-sway-install:
-  pkg.installed:
-    - pkgs:
-      - sway-git
-      - i3blocks
-
 {{ grains.homedir }}/.config/sway/:
   file.directory:
     - user: {{ grains.user }}
