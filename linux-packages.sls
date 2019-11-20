@@ -14,3 +14,4 @@ packages:
       - zsh
       - antibody
       - ttf-hack
+      - qt5-wayland
