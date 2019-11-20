@@ -2,13 +2,14 @@
 
 * {
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   font-family: "Font Awesome 5 Free", Roboto, Helvetica, Arial, sans-serif;
   font-size: 13px;
   min-height: 0;
 }
 
 window#waybar {
+  border-radius: 0px;
   background-color: @base03;
   color: #ffffff;
   transition-property: background-color;
@@ -27,19 +28,16 @@ window#waybar.hidden {
   padding: 0 5px;
   background-color: transparent;
   color: #ffffff;
-  border-bottom: 3px solid transparent;
 }
 
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
 #workspaces button:hover {
   background: rgba(0, 0, 0, 0.2);
   box-shadow: inherit;
-  border-bottom: 3px solid #ffffff;
 }
 
 #workspaces button.focused {
   background-color: #64727d;
-  border-bottom: 3px solid #ffffff;
 }
 
 #workspaces button.urgent {
@@ -48,7 +46,6 @@ window#waybar.hidden {
 
 #mode {
   background-color: #64727d;
-  border-bottom: 3px solid #ffffff;
 }
 
 #clock,
@@ -65,7 +62,7 @@ window#waybar.hidden {
 #mode,
 #idle_inhibitor {
   padding: 0 8px;
-  margin: 0 0px;
+  margin: 0 2px;
   color: #ffffff;
 }
 
