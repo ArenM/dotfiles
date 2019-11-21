@@ -259,7 +259,7 @@ set $gnome-schema org.gnome.desktop.interface
 exec_always {
     gsettings set $gnome-schema gtk-theme 'Layan-dark'
     gsettings set $gnome-schema icon-theme 'Tela-orange'
-    #gsettings set $gnome-schema cursor-theme 'Your cursor Theme'
+    gsettings set $gnome-schema cursor-theme 'Adwaita'
 }
 
 include /etc/sway/config.d/*
