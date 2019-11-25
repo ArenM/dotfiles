@@ -11,6 +11,12 @@ sway-config:
     - defaults:
       theme: {{ grains.theme }}
       terminal: {{ 'alacritty' if grains.gles3 else 'termite' }}
+      home: {{ grains.homedir }}
+
+sway-background:
+  file.managed:
+    - name: {{ grains.homedir }}/.config/sway/background.jpg
+    - source: salt://sway/background.jpg
 
 sway-themes:
   git.latest:

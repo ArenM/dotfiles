@@ -23,8 +23,10 @@ set $menu wofi --show drun --allow-images --allow-markup | swaymsg exec
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in __DATADIR__/backgrounds/sway/)
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+#output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 #output * bg $HOME/.cache/earthbg/image.jpg fit #000000
+output * bg {{ home }}/.config/sway/background.jpg fill
+
 
 #
 # Example configuration:
