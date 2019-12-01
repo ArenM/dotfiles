@@ -24,14 +24,20 @@ let g:deoplete#enable_at_startup = 1
 "let g:deoplete#sources = {'_': 'ale'}
 call deoplete#custom#option('sources', {
 \ '_': ['ale', 'buffer'],
+\ 'rust': ['ale'],
 \})
 
 let g:ale_fixers = {
-                        \       '*': ['prettier']
-                        \}
+\  '*': ['prettier'],
+\  'rust': ['rustfmt'],
+\}
+
+let g:ale_linters = {
+\  'rust': ['rls', 'cargo'],
+\}
 
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v(node_modules|[\/]\.(git|hg|svn))$',
+  \ 'dir':  '\v(node_modules|target|[\/]\.(git|hg|svn))$',
   \ 'file': '\v\.(exe|so|dll)$',
   \ 'link': 'some_bad_symbolic_links',
   \ }

@@ -32,3 +32,7 @@ vim-plug-plugins:
   file.managed:
     - source: salt://vim/ale/css.vim
 
+{{ grains.homedir }}/.vim/plugged/ale/ftplugin/rust.vim:
+  file.managed:
+    - source: salt://vim/ale/rust.vim
+
