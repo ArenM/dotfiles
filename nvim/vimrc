@@ -1,0 +1,40 @@
+set nocompatible
+
+" configure nice defaults
+syntax enable
+filetype plugin on
+set number
+set wildmenu
+
+call plug#begin('~/.nvim/plugged')
+  Plug 'scrooloose/nerdtree'
+  Plug 'w0rp/ale'
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'posva/vim-vue'
+  Plug 'ctrlpvim/ctrlp.vim'
+  Plug 'tpope/vim-commentary'
+  Plug 'tpope/vim-fugitive'
+  Plug 'airblade/vim-gitgutter'
+  Plug 'rust-lang/rust.vim'
+call plug#end()
+
+let g:deoplete#enable_at_startup = 1
+"let g:deoplete#sources = {'_': 'ale'}
+"call deoplete#custom#option('sources', {
+"\ '_': ['ale', 'buffer'],
+"\})
+
+let g:ale_fixers = {
+                        \       '*': ['prettier']
+                        \}
+
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v(node_modules|[\/]\.(git|hg|svn))$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
+
+autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
+autocmd FileType go setlocal expandtab shiftwidth=4 softtabstop=4
+
+set expandtab
