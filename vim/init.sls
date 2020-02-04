@@ -9,7 +9,7 @@ vim-plug:
     - name: {{ grains.homedir}}/.vim/autoload/plug.vim
     - skip_verify: True
     - user:   {{ grains.user }}
-    - group:  {{ grains.user }}
+    - group:  {{ grains.group }}
 
 # TODO: install pynvim
 

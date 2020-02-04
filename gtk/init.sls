@@ -1,7 +1,7 @@
 {{ grains.homedir }}/.config/gtk-3.0/:
   file.directory:
     - user: {{ grains.user }}
-    - group: {{ grains.user }}
+    - group: {{ grains.group }}
 
 zsh-zshrc:
   file.managed:

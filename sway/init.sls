@@ -1,7 +1,7 @@
 {{ grains.homedir }}/.config/sway/:
   file.directory:
     - user: {{ grains.user }}
-    - group: {{ grains.user }}
+    - group: {{ grains.group }}
 
 sway-config:
   file.managed:
@@ -28,7 +28,7 @@ sway-themes:
 {{ grains.homedir }}/.config/i3blocks/blocklets:
   file.directory:
     - user: {{ grains.user }}
-    - group: {{ grains.user }}
+    - group: {{ grains.group }}
     - makedirs: True
 
 i3blocks-config:
@@ -48,7 +48,7 @@ i3blocks-blocklets:
     - name: {{ grains.homedir }}/.config/i3blocks/blocklets
     - source: salt://sway/blocklets
     - user: {{ grains.user }}
-    - group: {{ grains.user }}
+    - group: {{ grains.group }}
     - file_mode: 0755
 
 

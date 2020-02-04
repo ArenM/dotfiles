@@ -1,7 +1,7 @@
 {{ grains.homedir }}/.config/waybar/:
   file.directory:
     - user: {{ grains.user }}
-    - group: {{ grains.user }}
+    - group: {{ grains.group }}
 
 {{ grains.homedir }}/.config/waybar/config:
   file.managed:

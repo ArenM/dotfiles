@@ -1,7 +1,7 @@
 {{ grains.homedir }}/.config/nvim/:
   file.directory:
     - user: {{ grains.user }}
-    - group: {{ grains.user }}
+    - group: {{ grains.group }}
     - mkdirs: True
 nvim-init:
   file.managed:
@@ -16,7 +16,7 @@ nvim-plug:
     - name: {{ grains.homedir}}/.local/share/nvim/site/autoload/plug.vim
     - skip_verify: True
     - user:   {{ grains.user }}
-    - group:  {{ grains.user }}
+    - group:  {{ grains.group }}
 
 nvim-plug-plugins:
   cmd.run:

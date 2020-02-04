@@ -1,3 +1,4 @@
 homedir: /home/aren
 theme: chalk
 user: aren
+group: aren
