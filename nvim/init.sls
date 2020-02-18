@@ -36,4 +36,6 @@ nvim-plug-plugins:
 #{{ grains.homedir }}/.vim/plugged/ale/ftplugin/css.vim:
 #  file.managed:
 #    - source: salt://nvim/ale/css.vim
-
+{{ grains.homedir }}/.config/nvim/ftplugin/yaml.vim:
+  file.managed:
+    - source: salt://nvim/ale/yaml.vim
