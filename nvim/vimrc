@@ -1,5 +1,13 @@
 set nocompatible
 
+" dont discard buffers when switching to a different one
+set hidden
+
+" Get out of insert mode
+noremap <Leader><Leader> <Esc>
+inoremap <Leader><Leader> <Esc>
+tnoremap <Leader><Leader> <Esc>
+
 " configure nice defaults
 syntax enable
 filetype plugin on
