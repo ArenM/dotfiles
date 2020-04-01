@@ -41,21 +41,43 @@ call plug#begin('~/.nvim/plugged')
   Plug 'vim-airline/vim-airline'
 call plug#end()
 
-let g:deoplete#enable_at_startup = 1
-"let g:deoplete#sources = {'_': 'ale'}
-"call deoplete#custom#option('sources', {
-"\ '_': ['ale', 'buffer'],
-"\})
+let g:echodoc#enable_at_startup = 1
+let g:echodoc#type = 'floating'
 
-let g:ale_fixers = {
-                        \       '*': ['prettier']
-                        \}
+let g:deoplete#enable_at_startup = 1
+call deoplete#custom#source('LanguageClient', 'min_pattern_length', 2)
+call deoplete#custom#option('sources', {
+\ '_': ['LanguageClient', 'file'],
+\ })
+
+let g:LanguageClient_serverCommands = {
+  \ 'c': ['clangd'],
+  \ 'cpp': ['clangd'],
+  \ 'python': ['pyls'],
+  \ 'rust': ['rls'],
+  \ }
 
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v(node_modules|[\/]\.(git|hg|svn))$',
   \ 'file': '\v\.(exe|so|dll)$',
   \ 'link': 'some_bad_symbolic_links',
   \ }
+
+noremap <Leader>b :CtrlPBuffer<CR>
+
+function SetupLSP()
+  nmap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+  nmap <silent> gr :call LanguageClient#textDocument_references()<CR>
+
+  nmap <Leader>r :call LanguageClient#textDocument_rename()
+
+  nmap <Leader>f :call LanguageClient#textDocument_formatting()<CR>
+  vmap <Leader>f :call LanguageClient#textDocument_rangeFormatting()<CR>
+endfunction()
+
+autogroup LSP
+  autocmd FileType c,cpp,python,rust call SetupLSP()
+autogroup end
 
 autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
 autocmd FileType go setlocal expandtab shiftwidth=4 softtabstop=4
