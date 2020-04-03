@@ -15,19 +15,30 @@ set number
 set wildmenu
 
 call plug#begin('~/.nvim/plugged')
-  Plug 'scrooloose/nerdtree'
-  Plug 'w0rp/ale'
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  Plug 'posva/vim-vue'
-  Plug 'ctrlpvim/ctrlp.vim'
-  Plug 'tpope/vim-commentary'
-  Plug 'tpope/vim-fugitive'
+  " Git
   Plug 'airblade/vim-gitgutter'
-  Plug 'rust-lang/rust.vim'
+  Plug 'tpope/vim-fugitive'
+
+  " Files / Buffers
+  Plug 'ctrlpvim/ctrlp.vim'
+  Plug 'scrooloose/nerdtree'
+
+  " Code Minaplion
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh', }
+  Plug 'junegunn/fzf.vim'
+  Plug 'Shougo/echodoc.vim'
+  Plug 'tpope/vim-commentary'
+
+  " Filetype Plugins
   Plug 'isobit/vim-caddyfile'
+  Plug 'posva/vim-vue'
+  Plug 'rust-lang/rust.vim'
+
+  " Look and Feel
+  Plug 'bling/vim-bufferline'
   Plug 'psliwka/vim-smoothie'
   Plug 'vim-airline/vim-airline'
-  Plug 'bling/vim-bufferline'
 call plug#end()
 
 let g:deoplete#enable_at_startup = 1
