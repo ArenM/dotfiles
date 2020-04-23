@@ -1,5 +1,13 @@
 set nocompatible
 
+" dont discard buffers when switching to a different one
+set hidden
+
+" Get out of insert mode
+noremap <Leader><Leader> <Esc>
+inoremap <Leader><Leader> <Esc>
+tnoremap <Leader><Leader> <Esc>
+
 " configure nice defaults
 syntax enable
 filetype plugin on
@@ -7,32 +15,69 @@ set number
 set wildmenu
 
 call plug#begin('~/.nvim/plugged')
-  Plug 'scrooloose/nerdtree'
-  Plug 'w0rp/ale'
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  Plug 'posva/vim-vue'
-  Plug 'ctrlpvim/ctrlp.vim'
-  Plug 'tpope/vim-commentary'
-  Plug 'tpope/vim-fugitive'
+  " Git
   Plug 'airblade/vim-gitgutter'
+  Plug 'tpope/vim-fugitive'
+
+  " Files / Buffers
+  Plug 'ctrlpvim/ctrlp.vim'
+  Plug 'scrooloose/nerdtree'
+
+  " Code Minaplion
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh', }
+  Plug 'junegunn/fzf.vim'
+  Plug 'Shougo/echodoc.vim'
+  Plug 'tpope/vim-commentary'
+
+  " Filetype Plugins
+  Plug 'isobit/vim-caddyfile'
+  Plug 'posva/vim-vue'
   Plug 'rust-lang/rust.vim'
+
+  " Look and Feel
+  Plug 'bling/vim-bufferline'
+  Plug 'psliwka/vim-smoothie'
+  Plug 'vim-airline/vim-airline'
 call plug#end()
 
-let g:deoplete#enable_at_startup = 1
-"let g:deoplete#sources = {'_': 'ale'}
-"call deoplete#custom#option('sources', {
-"\ '_': ['ale', 'buffer'],
-"\})
+let g:echodoc#enable_at_startup = 1
+let g:echodoc#type = 'floating'
 
-let g:ale_fixers = {
-                        \       '*': ['prettier']
-                        \}
+let g:deoplete#enable_at_startup = 1
+call deoplete#custom#source('LanguageClient', 'min_pattern_length', 2)
+call deoplete#custom#option('sources', {
+\ '_': ['LanguageClient', 'file'],
+\ })
+
+let g:LanguageClient_serverCommands = {
+  \ 'c': ['clangd'],
+  \ 'cpp': ['clangd'],
+  \ 'python': ['pyls'],
+  \ 'rust': ['rls'],
+  \ }
 
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v(node_modules|[\/]\.(git|hg|svn))$',
   \ 'file': '\v\.(exe|so|dll)$',
   \ 'link': 'some_bad_symbolic_links',
   \ }
+
+noremap <Leader>b :CtrlPBuffer<CR>
+
+function SetupLSP()
+  nmap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+  nmap <silent> gr :call LanguageClient#textDocument_references()<CR>
+
+  nmap <Leader>r :call LanguageClient#textDocument_rename()
+
+  nmap <Leader>f :call LanguageClient#textDocument_formatting()<CR>
+  vmap <Leader>f :call LanguageClient#textDocument_rangeFormatting()<CR>
+endfunction()
+
+autogroup LSP
+  autocmd FileType c,cpp,python,rust call SetupLSP()
+autogroup end
 
 autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
 autocmd FileType go setlocal expandtab shiftwidth=4 softtabstop=4
