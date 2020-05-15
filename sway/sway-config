@@ -41,8 +41,8 @@ output LVDS-1 position 0,0
 # Example configuration:
 #
 exec swayidle \
-    timeout 270 'systemctl suspend' \
-    timeout 45 'swaymsg "output * dpms off"' \
+    timeout 330 'systemctl suspend' \
+    timeout 300 'swaymsg "output * dpms off"' \
        resume 'swaymsg "output * dpms on"' \
     before-sleep 'swaylock -c 000000'
     #timeout 30 'swaylock -c 000000' \
