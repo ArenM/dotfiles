@@ -1,15 +1,19 @@
-# Antibody
-#source <(antibody init)
+# Enable Powerlevel10k instant prompt
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
 # Plugins
-#antibody bundle < ~/.zsh_plugins
 source $HOME/.zsh_plugins.sh
-export POWERLEVEL9K_IGNORE_TERM_COLORS=true
+
+# Prompt Theme
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Interaction
 autoload -Uz compinit
 compinit -D
 
+bindkey -v
 bindkey "^[[A"    history-substring-search-up	# Up Arrow
 bindkey "^[[B"    history-substring-search-down	# Down Arrow
 bindkey "^[[1;5D" backward-word			# Crtl Left Arrow
