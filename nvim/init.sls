@@ -7,6 +7,9 @@ nvim-init:
   file.managed:
     - name: {{ grains.homedir }}/.config/nvim/init.vim
     - source: salt://nvim/vimrc
+    - template: jinja
+    - defaults:
+      theme: {{ grains.theme }}
 
 nvim-plug:
   cmd.run:
