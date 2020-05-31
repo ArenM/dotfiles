@@ -33,9 +33,9 @@ call plug#begin('~/.nvim/plugged')
   Plug 'rust-lang/rust.vim'
 
   " Look and Feel
-  Plug 'bling/vim-bufferline'
   Plug 'psliwka/vim-smoothie'
-  Plug 'vim-airline/vim-airline'
+  Plug 'itchyny/lightline.vim'
+  Plug 'ArenM/vim-buffet'
 call plug#end()
 
 let g:echodoc#enable_at_startup = 1
@@ -58,9 +58,12 @@ let g:ctrlp_custom_ignore = {
   \ 'link': 'some_bad_symbolic_links',
   \ }
 
-let g:ctrlp_working_path_mode = ''
+" Buffer Line Config
+let g:buffet_always_show_tabline = 1
+let g:buffet_hidden_buffers = ["quickfix"]
 
-noremap <Leader>b :CtrlPBuffer<CR>
+let g:lightline = {}
+let g:lightline.enable = { 'tabline': 0 }
 
 "
 " Keybindings
