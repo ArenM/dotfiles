@@ -3,11 +3,6 @@ set nocompatible
 " dont discard buffers when switching to a different one
 set hidden
 
-" Get out of insert mode
-noremap <Leader><Leader> <Esc>
-inoremap <Leader><Leader> <Esc>
-tnoremap <Leader><Leader> <Esc>
-
 " configure nice defaults
 syntax enable
 filetype plugin on
@@ -23,13 +18,12 @@ call plug#begin('~/.nvim/plugged')
   Plug 'tpope/vim-fugitive'
 
   " Files / Buffers
-  Plug 'ctrlpvim/ctrlp.vim'
+  Plug 'junegunn/fzf.vim'
   Plug 'scrooloose/nerdtree'
 
   " Code Minaplion
   Plug 'ncm2/ncm2'
   Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh', }
-  Plug 'junegunn/fzf.vim'
   Plug 'Shougo/echodoc.vim'
   Plug 'tpope/vim-commentary'
 
@@ -68,6 +62,15 @@ let g:ctrlp_working_path_mode = ''
 
 noremap <Leader>b :CtrlPBuffer<CR>
 
+"
+" Keybindings
+"
+
+" FZF
+noremap <C-f> :Files<CR>
+noremap <Leader>b :Buffers<CR>
+
+" LanguageClient Key Bindings
 function SetupLSP()
   nmap <silent> gd :call LanguageClient#textDocument_definition()<CR>
   nmap <silent> gt :call LanguageClient#textDocument_typeDefinition()<CR>
@@ -86,6 +89,20 @@ augroup LSP
   autocmd FileType c,cpp,json,python,rust call SetupLSP()
 augroup end
 
+" Escape the current Mode
+noremap <Leader><Leader> <Esc>
+inoremap <Leader><Leader> <Esc>
+tnoremap <Leader><Leader> <Esc>
+
+" Buffer Management
+" TODO: These aren't great keybindings, also add switch to buffer number
+" excluding 'deleted' buffers
+noremap gb :bnext<CR>
+noremap gB :bprev<CR>
+
+"
+" FileType Config
+"
 autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
 autocmd FileType go setlocal expandtab shiftwidth=4 softtabstop=4
 
