@@ -105,10 +105,9 @@ inoremap <Leader><Leader> <Esc>
 tnoremap <Leader><Leader> <Esc>
 
 " Buffer Management
-" TODO: These aren't great keybindings, also add switch to buffer number
-" excluding 'deleted' buffers
-noremap gb :bnext<CR>
-noremap gB :bprev<CR>
+" TODO: add switch to buffer number excluding 'deleted' buffers
+noremap <Tab> :bnext<CR>
+noremap <S-Tab> :bprev<CR>
 
 "
 " FileType Config
