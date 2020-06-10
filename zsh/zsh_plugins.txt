@@ -1,8 +1,5 @@
-djui/alias-tips
 zsh-users/zsh-completions
 zsh-users/zsh-autosuggestions
-jreese/zsh-titles
-t413/zsh-background-notify
 zsh-users/zsh-syntax-highlighting
 zsh-users/zsh-history-substring-search
 
