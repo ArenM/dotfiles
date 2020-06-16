@@ -8,25 +8,28 @@ syntax enable
 filetype plugin on
 set number
 set wildmenu
+set relativenumber
 
 call plug#begin('~/.nvim/plugged')
-  " Required by ncm2
-  Plug 'roxma/nvim-yarp'
-
   " Git
   Plug 'airblade/vim-gitgutter'
   Plug 'tpope/vim-fugitive'
 
   " Files / Buffers
   Plug 'junegunn/fzf.vim'
-  Plug 'scrooloose/nerdtree'
+  Plug 'scrooloose/nerdtree', { 'on': [ 'NERDTreeToggle', 'NERDTree' ] }
 
   " Code Minaplion
-  Plug 'ncm2/ncm2'
+  " Plug 'ncm2/ncm2'
   Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh', }
   Plug 'Shougo/echodoc.vim'
   Plug 'tpope/vim-commentary'
   Plug 'tpope/vim-surround'
+  Plug 'liuchengxu/vista.vim'
+
+  " Auto Complete
+  Plug 'prabirshrestha/asyncomplete.vim'
+  Plug 'yami-beta/asyncomplete-omni.vim'
 
   " Filetype Plugins
   Plug 'isobit/vim-caddyfile'
@@ -48,8 +51,12 @@ colorscheme base16-{{theme}}
 let g:echodoc#enable_at_startup = 1
 let g:echodoc#type = 'floating'
 
-autocmd BufEnter * call ncm2#enable_for_buffer()
-set completeopt=noinsert,menuone,noselect
+call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+\ 'name': 'omni',
+\ 'whitelist': ['*'],
+\ 'blacklist': [],
+\ 'completor': function('asyncomplete#sources#omni#completor')
+\  }))
 
 let g:LanguageClient_serverCommands = {
   \ 'c': ['clangd'],
@@ -73,21 +80,32 @@ let g:lightline = {}
 let g:lightline.enable = { 'tabline': 0 }
 let g:lightline.colorscheme = 'base16_{{theme | replace("-","_")}}'
 
+" Vista (outline)
+let g:vista_cursor_delay = 80
+let g:vista_echo_cursor_strategy = "floating_win"
+
 "
 " Keybindings
 "
 
 " FZF
+let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 noremap <C-f> :Files<CR>
 noremap <Leader>b :Buffers<CR>
 
+nmap <silent> <Leader>o :Vista ctags<CR>
+
 " LanguageClient Key Bindings
 function SetupLSP()
+  set omnifunc=LanguageClient#omniComplete
+  set completefunc=LanguageClient#complete
+
   nmap <silent> gd :call LanguageClient#textDocument_definition()<CR>
   nmap <silent> gt :call LanguageClient#textDocument_typeDefinition()<CR>
   nmap <silent> gr :call LanguageClient#textDocument_references()<CR>
 
-  nmap <Leader>o :call LanguageClient_textDocument_documentSymbol()<CR>
+  " nmap <Leader>o :call LanguageClient_textDocument_documentSymbol()<CR>
+  nmap <silent> <Leader>o :Vista lcn<CR>
 
   nmap <Leader>r :call LanguageClient#textDocument_rename()<CR>
   nmap <Leader>f :call LanguageClient#textDocument_formatting()<CR>
@@ -115,5 +133,6 @@ noremap <S-Tab> :bprev<CR>
 "
 autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
 autocmd FileType go setlocal expandtab shiftwidth=4 softtabstop=4
+autocmd FileType c setlocal expandtab shiftwidth=4 softtabstop=4
 
 set expandtab
