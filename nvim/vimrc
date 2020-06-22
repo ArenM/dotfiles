@@ -18,6 +18,7 @@ call plug#begin('~/.nvim/plugged')
   " Files / Buffers
   Plug 'junegunn/fzf.vim'
   Plug 'scrooloose/nerdtree', { 'on': [ 'NERDTreeToggle', 'NERDTree' ] }
+  Plug 'tpope/vim-eunuch', { 'on': [ 'Rename', 'Chmod', 'Mkdir', 'SudoWrite', 'SudoEdit' ] }
 
   " Code Minaplion
   " Plug 'ncm2/ncm2'
