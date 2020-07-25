@@ -16,6 +16,7 @@ call plug#begin('~/.nvim/plugged')
   Plug 'tpope/vim-fugitive'
 
   " Files / Buffers
+  Plug 'junegunn/fzf'
   Plug 'junegunn/fzf.vim'
   Plug 'scrooloose/nerdtree', { 'on': [ 'NERDTreeToggle', 'NERDTree' ] }
   Plug 'tpope/vim-eunuch', { 'on': [ 'Rename', 'Chmod', 'Mkdir', 'SudoWrite', 'SudoEdit' ] }
@@ -27,6 +28,8 @@ call plug#begin('~/.nvim/plugged')
   Plug 'tpope/vim-surround'
   Plug 'liuchengxu/vista.vim'
   Plug 'jiangmiao/auto-pairs'
+  Plug 'tpope/vim-repeat'
+  Plug 'tpope/vim-sleuth'
 
   " Auto Complete
   Plug 'prabirshrestha/asyncomplete.vim'
