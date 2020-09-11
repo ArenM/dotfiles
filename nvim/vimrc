@@ -45,7 +45,7 @@ call plug#begin('~/.nvim/plugged')
   Plug 'mike-hearn/base16-vim-lightline'
   Plug 'psliwka/vim-smoothie'
   Plug 'itchyny/lightline.vim'
-  Plug 'ArenM/vim-buffet'
+  Plug 'mengelbrecht/lightline-bufferline'
 call plug#end()
 
 " NOTE: This may break in some terminals, maybe add a check later
@@ -76,13 +76,20 @@ let g:ctrlp_custom_ignore = {
   \ 'link': 'some_bad_symbolic_links',
   \ }
 
-" Buffer Line Config
-let g:buffet_always_show_tabline = 1
-let g:buffet_hidden_buffers = ["quickfix"]
-
-let g:lightline = {}
-let g:lightline.enable = { 'tabline': 0 }
-let g:lightline.colorscheme = 'base16_{{theme | replace("-","_")}}'
+set showtabline=2
+let g:lightline = {
+\   'tabline': {
+\     'left': [ [ 'buffers' ] ],
+\     'right': [ [ 'close' ] ]
+\   },
+\   'component_expand': {
+\     'buffers': 'lightline#bufferline#buffers'
+\   },
+\   'component_type': {
+\     'buffers': 'tabsel'
+\   },
+\   'colorscheme': 'base16_{{theme | replace("-","_")}}'
+\ }
 
 " Vista (outline)
 let g:vista_cursor_delay = 80
