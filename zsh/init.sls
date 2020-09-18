@@ -7,11 +7,9 @@ zsh-plugins:
   file.managed:
     - name: {{ grains.homedir }}/.zsh_plugins
     - source: salt://zsh/zsh_plugins.txt
-
-zsh-powerlevel-config:
-  file.managed:
-    - name: {{ grains.homedir }}/.p10k.zsh
-    - source: salt://zsh/p10k.zsh
+    - template: jinja
+    - defaults:
+      terminal: {{ 'alacritty' if grains.gles3 else 'termite' }}
 
 zsh-antibody-update:
   cmd.run:
