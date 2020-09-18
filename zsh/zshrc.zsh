@@ -1,13 +1,8 @@
-# Enable Powerlevel10k instant prompt
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # Plugins
 source $HOME/.zsh_plugins.sh
 
-# Prompt Theme
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# Prompt
+eval $(starship init zsh)
 
 # Interaction
 autoload -Uz compinit

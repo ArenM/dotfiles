@@ -4,8 +4,8 @@ zsh-users/zsh-syntax-highlighting
 zsh-users/zsh-history-substring-search
 
 # Theme
-romkatv/powerlevel10k
-#bhilburn/powerlevel9k
+starship/starship
+#romkatv/powerlevel10k
 #denysdovhan/spaceship-prompt
 #tylerreckart/hyperzsh
 #halfo/lambda-mod-zsh-theme
