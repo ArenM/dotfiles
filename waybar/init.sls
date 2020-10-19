@@ -17,7 +17,7 @@
     - defaults:
       theme: {{ grains.theme }}
 
-sway-themes:
+waybar-themes:
   git.latest:
     - target: {{ grains.homedir }}/.config/waybar/base16-waybar
     - name: https://github.com/mnussbaum/base16-waybar.git
