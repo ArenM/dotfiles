@@ -1,4 +1,0 @@
-[Service]
-Type=oneshot
-ExecStartPre=sh -c "pkcon update --background -d || true"
-ExecStart=sh -c "pkcon get-updates --background | grep Normal | wc -l > /var/log/avalible-update-count"
