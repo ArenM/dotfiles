@@ -111,6 +111,10 @@ font pango:FontAwesome Regular 12px, Hack Regular 12px
     # exit sway (logs you out of your Wayland session)
     #bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
     bindsym $mod+Shift+e exec rofi -show off -modi off:/home/aren/.config/rofi/exit-sway.sh
+
+    # Monitor Controls, just brightness for now
+    bindsym $mod+m exec ~/.local/bin/monitor-controls.sh
+
 #
 # Moving around:
 #

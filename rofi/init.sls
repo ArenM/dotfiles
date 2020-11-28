@@ -9,6 +9,13 @@
     - user: {{ grains.user }}
     - group: {{ grains.group }}
 
+{{ grains.homedir }}/.local/bin/monitor-controls.sh:
+   file.managed:
+     - source: salt://rofi/monitor-controls.sh
+     - user: {{ grains.user }}
+     - group: {{ grains.group }}
+     - mode: 755
+
 {{ grains.homedir }}/.config/rofi/exit-sway.sh:
    file.managed:
      - source: salt://rofi/exit-sway.sh

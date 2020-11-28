@@ -36,13 +36,6 @@ i3blocks-config:
     - name: {{ grains.homedir }}/.config/i3blocks/config
     - source: salt://sway/i3b-config
 
-i3blocks-stock-blocklets:
-  git.latest:
-    - target: {{ grains.homedir }}/.config/i3blocks/blocklets
-    - name: https://github.com/vivien/i3blocks-contrib.git
-    - force_clone: True
-    - user: {{ grains.user }}
-
 i3blocks-blocklets:
   file.recurse:
     - name: {{ grains.homedir }}/.config/i3blocks/blocklets
