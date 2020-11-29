@@ -10,7 +10,19 @@ set number
 set wildmenu
 set relativenumber
 
-call plug#begin('~/.nvim/plugged')
+" Buffer Management
+noremap <Tab> :bnext<CR>
+noremap <S-Tab> :bprev<CR>
+
+" File Type Config
+autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
+autocmd FileType go setlocal expandtab shiftwidth=4 softtabstop=4
+autocmd FileType c setlocal expandtab shiftwidth=4 softtabstop=4
+
+" I prefer spaces over tabs
+set expandtab
+
+call plug#begin('~/.config/nvim/plugged')
   " Git
   Plug 'airblade/vim-gitgutter'
   Plug 'tpope/vim-fugitive'
@@ -26,12 +38,10 @@ call plug#begin('~/.nvim/plugged')
   Plug 'Shougo/echodoc.vim'
   Plug 'tpope/vim-commentary'
   Plug 'tpope/vim-surround'
-  Plug 'jiangmiao/auto-pairs'
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-sleuth'
 
   " File Navigation
-  Plug 'justinmk/vim-sneak'
   Plug 'liuchengxu/vista.vim'
 
   " Auto Complete
@@ -70,7 +80,7 @@ let g:LanguageClient_serverCommands = {
   \ 'cpp': ['clangd'],
   \ 'json': ['json-languageserver', '--stdio'],
   \ 'python': ['pyls'],
-  \ 'rust': ['rls'],
+  \ 'rust': ['rust-analyzer'],
   \ }
 
 let g:ctrlp_custom_ignore = {
@@ -131,22 +141,3 @@ augroup LSP
   au!
   autocmd FileType c,cpp,json,python,rust call SetupLSP()
 augroup end
-
-" Escape the current Mode
-noremap <Leader><Leader> <Esc>
-inoremap <Leader><Leader> <Esc>
-tnoremap <Leader><Leader> <Esc>
-
-" Buffer Management
-" TODO: add switch to buffer number excluding 'deleted' buffers
-noremap <Tab> :bnext<CR>
-noremap <S-Tab> :bprev<CR>
-
-"
-" FileType Config
-"
-autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
-autocmd FileType go setlocal expandtab shiftwidth=4 softtabstop=4
-autocmd FileType c setlocal expandtab shiftwidth=4 softtabstop=4
-
-set expandtab
