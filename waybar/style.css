@@ -2,16 +2,16 @@
 
 * {
   border: none;
-  border-radius: 10px;
-  font-family: "Font Awesome 5 Free", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 13px;
+  font-family: "VictorMono Nerd Font", sans-serif;
+  font-size: 12.5pt;
+  font-weight: 600;
   min-height: 0;
+  transition: none;
 }
 
 window#waybar {
-  border-radius: 0px;
-  background-color: @base03;
-  color: #ffffff;
+  background-color: @base00;
+  color: @base05;
   transition-property: background-color;
   transition-duration: 0.5s;
 }
@@ -20,24 +20,78 @@ window#waybar.hidden {
   opacity: 0.2;
 }
 
-/*window#waybar.empty {
+window#waybar.empty {
   background-color: transparent;
-}*/
+}
+
+window#waybar > box {
+  padding: 3px;
+}
+
+#backlight,
+#battery,
+#clock,
+#cpu,
+#custom-cpu,
+#custom-media,
+#disk,
+#idle_inhibitor,
+#memory,
+#mode,
+#network,
+#pulseaudio,
+#temperature,
+#tray,
+#workspaces button {
+  padding: 3px 10px;
+  margin: 0 0.2em;
+  color: #ffffff;
+  border-radius: 6px;
+  /* TODO: Cool effect, but cliped wierdly, perhaps it's a gtk bug, try again later */
+  /* box-shadow: -3px 3px 5px; */
+}
+
+#workspaces label {
+  padding: 0;
+  margin: 0;
+}
 
 #workspaces button {
-  padding: 0 5px;
-  background-color: transparent;
-  color: #ffffff;
+  padding: 3px 8px;
+  border-radius: 0;
+  margin: 0 0;
+  background-color: @base02;
+  color: @base05;
+}
+
+#workspaces button:first-child {
+  border-radius: 6px 0px 0px 6px;
+  margin-left: 0;
+}
+
+#workspaces button:last-child {
+  border-radius: 0px 6px 6px 0px;
+  margin-right: 20px;
+}
+
+#workspaces button:only-child {
+  border-radius: 6px;
 }
 
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
 #workspaces button:hover {
-  background: rgba(0, 0, 0, 0.2);
+  color: @base09;
   box-shadow: inherit;
+  text-shadow: inherit;
+}
+
+#workspaces button.activated {
+  box-shadow: inherit;
+  text-shadow: inherit;
 }
 
 #workspaces button.focused {
-  background-color: #64727d;
+  color: @base0E;
 }
 
 #workspaces button.urgent {
@@ -46,24 +100,6 @@ window#waybar.hidden {
 
 #mode {
   background-color: #64727d;
-}
-
-#clock,
-#disk,
-#battery,
-#cpu,
-#memory,
-#temperature,
-#backlight,
-#network,
-#pulseaudio,
-#custom-media,
-#tray,
-#mode,
-#idle_inhibitor {
-  padding: 0 8px;
-  margin: 0 2px;
-  color: #ffffff;
 }
 
 #clock {
@@ -106,6 +142,11 @@ label:focus {
 }
 
 #cpu {
+  background-color: #2ecc71;
+  color: #000000;
+}
+
+#custom-cpu {
   background-color: #2ecc71;
   color: #000000;
 }
@@ -160,10 +201,13 @@ label:focus {
 
 #tray {
   background-color: #2980b9;
+  margin-right: 0;
 }
 
 #idle_inhibitor {
   background-color: #2d3436;
+  /* Hack to work around font spacing issue */
+  padding-right: 15px;
 }
 
 #idle_inhibitor.activated {

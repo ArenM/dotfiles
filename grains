@@ -1,5 +1,6 @@
-homedir: /home/aren
-theme: gruvbox-dark-pale
-user: aren
-group: aren
 gles3: true
+group: aren
+gtk_theme: Breeze
+homedir: /home/aren
+theme: atelier-dune-light
+user: aren

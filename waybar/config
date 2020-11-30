@@ -1,17 +1,17 @@
 {
     "layer": "top", // Waybar at top layer
     "position": "bottom", // Waybar position (top|bottom|left|right)
-    "height": 22, // Waybar height (to be removed for auto height)
+    //"height": 20, // Waybar height (to be removed for auto height)
     // "width": 1280, // Waybar width
     // Choose the order of the modules
-    "modules-left": ["sway/workspaces", "sway/mode", "custom/media", "sway/window"],
-    //"modules-center": ["sway/window"],
-    "modules-right": ["idle_inhibitor", "disk", "pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "battery", "clock", "tray"],
+    "modules-left": ["sway/workspaces", "sway/mode", "sway/window"],
+    "modules-center": ["clock"],
+    "modules-right": ["idle_inhibitor", "disk", "pulseaudio", "network", "custom/cpu", "memory", "temperature", "backlight", "battery", "tray"],
     // Modules configuration
     "sway/workspaces": {
         "disable-scroll": true,
         "all-outputs": false,
-        "format": "{name}: {icon}",
+        "format": "{name}",
         "format-icons": {
             "1": "",
             "2": "",
@@ -42,23 +42,26 @@
     },
     "clock": {
         "tooltip-format": "{:%Y-%m-%d | %H:%M}",
-        "format": "{:%I:%M %p}",
+        "format": "{:%A %B %e %l:%M %p}",
         "format-alt": "{:%Y-%m-%d}"
     },
-    "cpu": {
-        "format": "{usage}% ",
-        "tooltip": false
+    // "cpu": {
+    //     "format": "{usage}% {load} ",
+    //     "tooltip": true,
+    //     "interval": 1
+    // },
+    "custom/cpu": {
+        // "exec": "cat /proc/loadavg | awk -F\" \" '//{print $1, $2, $3 \" \";}'",
+        "exec": "cat /proc/loadavg | awk -F\" \" '//{print $1, \"\";}'",
+        "interval": 3
     },
     "memory": {
-        "format": "{}% "
+        "format": "{}% ",
+        "interval": 1
     },
     "temperature": {
-        // "thermal-zone": 2,
-        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
         "critical-threshold": 80,
-        // "format-critical": "{temperatureC}°C {icon}",
-        "format": "{temperatureC}°C {icon}",
-        "format-icons": ["", "", ""]
+        "format": "{temperatureC}°C",
     },
     "backlight": {
         // "device": "acpi_video1",
@@ -83,10 +86,11 @@
         "bat": "BAT2"
     },
     "network": {
+        // 
         // "interface": "wlp2*", // (Optional) To force the use of this interface
         "format-wifi": "{essid} ({signalStrength}%) ",
-        "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
-        "format-linked": "{ifname} (No IP) ",
+        "format-ethernet": "{ipaddr} ",
+        "format-linked": " {ifname} (No IP)",
         "format-disconnected": "Disconnected ⚠",
         "format-alt": "{ifname}: {ipaddr}/{cidr}"
     },
@@ -109,16 +113,4 @@
         },
         "on-click": "pavucontrol"
     },
-    "custom/media": {
-        "format": "{icon} {}",
-        "return-type": "json",
-        "max-length": 40,
-        "format-icons": {
-            "spotify": "",
-            "default": "🎜"
-        },
-        "escape": true,
-        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
-        // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
-    }
 }
