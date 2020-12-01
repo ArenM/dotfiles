@@ -10,6 +10,7 @@ sway-config:
     - template: jinja
     - defaults:
       theme: {{ grains.theme }}
+      gtk_theme: {{ grains.gtk_theme }}
       terminal: {{ 'alacritty' if grains.gles3 else 'termite' }}
       home: {{ grains.homedir }}
 
