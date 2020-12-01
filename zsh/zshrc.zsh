@@ -25,8 +25,9 @@ setopt sharehistory
 setopt hist_expire_dups_first
 
 # Enviroment
-export EDITOR=nvim
 export PATH="$PATH:$HOME/.cargo/bin:$HOME/.local/bin:$HOME/.npm-packages/bin"
-alias open="xdg-open"
+export EDITOR=nvim
+
+alias e="$EDITOR"
 alias ls="ls --color"
 alias ll="ls -alh"
