@@ -4,3 +4,6 @@
 [submodule "terminal/base16-alacritty"]
 	path = terminal/base16-alacritty
 	url = https://github.com/aaron-williamson/base16-alacritty.git
+[submodule "vendor/esh"]
+	path = vendor/esh
+	url = https://github.com/jirutka/esh.git

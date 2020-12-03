@@ -1,4 +1,4 @@
-@import "{{ grains.homedir }}/.config/waybar/base16-waybar/colors/base16-{{theme}}.css";
+@import "<%= $HOME %>/.config/waybar/base16-waybar/colors/base16-<%= $THEME %>.css";
 
 * {
   border: none;
@@ -25,7 +25,7 @@ window#waybar.empty {
 }
 
 window#waybar > box {
-  padding: 3px;
+  padding: 0px;
 }
 
 #backlight,

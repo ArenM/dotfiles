@@ -63,7 +63,7 @@ call plug#end()
 
 " NOTE: This may break in some terminals, maybe add a check later
 set termguicolors
-colorscheme base16-{{theme}}
+colorscheme base16-<%= $THEME %>
 
 let g:echodoc#enable_at_startup = 1
 let g:echodoc#type = 'floating'
@@ -101,7 +101,7 @@ let g:lightline = {
 \   'component_type': {
 \     'buffers': 'tabsel'
 \   },
-\   'colorscheme': 'base16_{{theme | replace("-","_")}}'
+\   'colorscheme': 'base16_<%= $THEME | sed "s/-/_/g" %>'
 \ }
 
 " Vista (outline)
