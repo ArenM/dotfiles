@@ -7,10 +7,23 @@ set hidden
 syntax enable
 filetype plugin on
 set number
+set wildmode=longest:full
 set wildmenu
 set relativenumber
 
-" Buffer Management
+set textwidth=80
+set colorcolumn=85
+set nowrap
+
+" Basic keybinds which don't require plugins
+nmap <Space> \
+
+noremap Y y$
+
+" TODO: This would be nice if it didn't also map Esc
+" tnoremap <C-[> <C-\><C-N>
+
+" Buffer switching
 noremap <Tab> :bnext<CR>
 noremap <S-Tab> :bprev<CR>
 
@@ -22,14 +35,58 @@ autocmd FileType c setlocal expandtab shiftwidth=4 softtabstop=4
 " I prefer spaces over tabs
 set expandtab
 
+"
+" Folding styles
+"
+
+" Setting fillchars/fold to a space. It's there you just can't see it.
+set fillchars=fold:\  
+set foldtext=CleanFoldText()
+autocmd FileType rust if FoldCondition() | call EnableFolding() | endif
+
+function FoldCondition()
+  return line('$') > 150
+endfunction
+
+function EnableFolding()
+  setlocal foldmethod=syntax
+  setlocal foldlevel=0
+  setlocal foldcolumn=1
+endfunction
+
+function CleanFoldText()
+  " Copied from https://github.com/pseewald/vim-anyfold/blob/master/autoload/anyfold.vim
+  let fs = v:foldstart
+  while getline(fs) !~ '\w'
+    let fs = nextnonblank(fs + 1)
+  endwhile
+  if fs > v:foldend
+    let line = getline(v:foldstart)
+  else
+    let line = substitute(getline(fs), '\t', repeat(' ', &tabstop), 'g')
+  endif
+
+  let foldSize = 1 + v:foldend - v:foldstart
+  let foldSizeStr = " " . substitute("%s lines", "%s", string(foldSize), "g") . " "
+  let foldLevelStr = repeat(" + ", v:foldlevel)
+  let lineCount = line("$")
+
+  " Subtracting 10 to shift the text over a bit, so that I don't have to calulate the width of the buffer
+  let w    = winwidth(0) - &foldcolumn - &number * &numberwidth - strwidth(line.foldSizeStr.foldLevelStr) - 10
+  let wmax = 85 - strwidth(line)
+  let expansionString = repeat(" ", min([w, wmax]))
+
+  return line.expansionString.foldSizeStr.foldLevelStr
+endfunction
+
 call plug#begin('~/.config/nvim/plugged')
   " Git
   Plug 'airblade/vim-gitgutter'
-  Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-fugitive', { 'on': [ 'G' ] }
 
   " Files / Buffers
   Plug 'junegunn/fzf'
-  Plug 'junegunn/fzf.vim'
+  Plug 'junegunn/fzf.vim', { 'on': ['Files', 'Buffers', 'Ag'] }
   Plug 'scrooloose/nerdtree', { 'on': [ 'NERDTreeToggle', 'NERDTree' ] }
   Plug 'tpope/vim-eunuch', { 'on': [ 'Rename', 'Chmod', 'Mkdir', 'SudoWrite', 'SudoEdit' ] }
 
@@ -39,19 +96,27 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'tpope/vim-commentary'
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-repeat'
-  Plug 'tpope/vim-sleuth'
+  Plug 'junegunn/vim-easy-align'
+  " Code Coverage, maybe useful in the future
+  " Plug 'retorillo/istanbul.vim'
 
   " File Navigation
-  Plug 'liuchengxu/vista.vim'
+  Plug 'preservim/tagbar', { 'on': [ 'TagbarOpenAutoClose' ] }
+  Plug 'wsdjeg/FlyGrep.vim', { 'on': [ 'FlyGrep' ] }
 
   " Auto Complete
-  Plug 'prabirshrestha/asyncomplete.vim'
-  Plug 'yami-beta/asyncomplete-omni.vim'
+  " Plug 'prabirshrestha/asyncomplete.vim'
+  " Plug 'yami-beta/asyncomplete-omni.vim'
+  " Plug 'prabirshrestha/asyncomplete-file.vim'
+
+  " Plug 'roxma/nvim-yarp'
+  " Plug 'ncm2/ncm2'
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
   " Filetype Plugins
-  Plug 'isobit/vim-caddyfile'
-  Plug 'posva/vim-vue'
+  Plug 'sheerun/vim-polyglot'
   Plug 'rust-lang/rust.vim'
+  " Plug 'sirtaj/vim-openscad'
 
   " Look and Feel
   Plug 'chriskempson/base16-vim'
@@ -59,6 +124,11 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'psliwka/vim-smoothie'
   Plug 'itchyny/lightline.vim'
   Plug 'mengelbrecht/lightline-bufferline'
+  Plug 'ryanoasis/vim-devicons'
+  " Plug 'iamcco/markdown-preview.nvim', {
+  "     \ 'do': { -> mkdp#util#install() },
+  "     \ 'for': ['markdown', 'vim-plug']
+  " \ }
 call plug#end()
 
 " NOTE: This may break in some terminals, maybe add a check later
@@ -68,25 +138,17 @@ colorscheme base16-<%= $THEME %>
 let g:echodoc#enable_at_startup = 1
 let g:echodoc#type = 'floating'
 
-call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
-\ 'name': 'omni',
-\ 'whitelist': ['*'],
-\ 'blacklist': [],
-\ 'completor': function('asyncomplete#sources#omni#completor')
-\  }))
+autocmd BufEnter * call deoplete#enable()
+inoremap <expr> <C-n> pumvisible() ? '<C-n>' : '<C-r>=deoplete#manual_complete()<CR>'
+inoremap <expr> <C-p> pumvisible() ? '<C-n>' : '<C-r>=deoplete#manual_complete()<CR>'
 
+" neovim-languageclient
 let g:LanguageClient_serverCommands = {
   \ 'c': ['clangd'],
   \ 'cpp': ['clangd'],
   \ 'json': ['json-languageserver', '--stdio'],
   \ 'python': ['pyls'],
   \ 'rust': ['rust-analyzer'],
-  \ }
-
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v(node_modules|target|[\/]\.(git|hg|svn))$',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ 'link': 'some_bad_symbolic_links',
   \ }
 
 set showtabline=2
@@ -104,9 +166,11 @@ let g:lightline = {
 \   'colorscheme': 'base16_<%= $THEME | sed "s/-/_/g" %>'
 \ }
 
-" Vista (outline)
-let g:vista_cursor_delay = 80
-let g:vista_echo_cursor_strategy = "floating_win"
+let g:lightline#bufferline#show_number = 2
+let g:lightline#bufferline#min_buffer_count = 2
+
+" Fly Grep
+let g:FlyGrep_input_delay = 40
 
 "
 " Keybindings
@@ -117,7 +181,9 @@ let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 noremap <C-f> :Files<CR>
 noremap <Leader>b :Buffers<CR>
 
-nmap <silent> <Leader>o :Vista ctags<CR>
+nmap <silent> <Leader>o :TagbarOpenAutoClose<CR>
+
+nmap <Leader>g :FlyGrep<CR>
 
 " LanguageClient Key Bindings
 function SetupLSP()
@@ -129,7 +195,6 @@ function SetupLSP()
   nmap <silent> gr :call LanguageClient#textDocument_references()<CR>
 
   " nmap <Leader>o :call LanguageClient_textDocument_documentSymbol()<CR>
-  nmap <silent> <Leader>o :Vista lcn<CR>
 
   nmap <Leader>r :call LanguageClient#textDocument_rename()<CR>
   nmap <Leader>f :call LanguageClient#textDocument_formatting()<CR>

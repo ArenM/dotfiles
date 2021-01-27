@@ -20,7 +20,7 @@ install-waybar: build/style.css
 build/style.css: waybar/style.css
 	./template.sh waybar/style.css > build/style.css
 
-build/nvimrc: nvim/vimrc
+build/nvimrc: nvim/vimrc env
 	./template.sh nvim/vimrc > build/nvimrc
 
 build/zsh_plugins: zsh/zsh_plugins.txt
