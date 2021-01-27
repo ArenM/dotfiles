@@ -1,1 +1,7 @@
 build/
+
+# User overrides
+env.sh
+
+# Generates somewhere, I don't know where though
+env
