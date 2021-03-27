@@ -35,6 +35,12 @@ install-terminal-foot: build/foot.ini
 	cp build/foot.ini ${DESTDIR}/.config/foot/foot.ini
 
 install-waybar: build/style.css waybar/config
+	mkdir -p ${DESTDIR}/.config/waybar
+	@if [ ! -d ${DESTDIR}/.config/waybar/base16-waybar ]; then \
+		git clone \
+		https://github.com/mnussbaum/base16-waybar.git \
+		${DESTDIR}/.config/waybar/base16-waybar; \
+	fi
 	cp build/style.css ${DESTDIR}/.config/waybar/style.css
 	cp waybar/config ${DESTDIR}/.config/waybar/config
 
