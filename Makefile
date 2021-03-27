@@ -4,6 +4,8 @@ DESTDIR := ${HOME}
 
 install: install-nvim install-sway install-terminal install-waybar install-zsh
 
+install-theme: install-nvim install-sway install-waybar install-terminal
+
 env: ./base-env.sh
 
 # TODO: Install vim-plug
@@ -18,11 +20,20 @@ install-sway: build/sway-config sway/background.jpg
 	# Git repo https://github.com/rkubosz/base16-sway.git be put at
 	# ${DESTDIR}/.config/sway/base16-sway
 
-install-terminal: build/alacritty.yml build/termite.cfg
+install-terminal: install-terminal-foot install-terminal-alacritty install-terminal-foot
+
+install-terminal-alacritty: build/alacritty.yml 
 	mkdir -p ${DESTDIR}/.config/alacritty
 	cp build/alacritty.yml ${DESTDIR}/.config/alacritty/alacritty.yml
+
+install-terminal-termite: build/termite.cfg
 	mkdir -p ${DESTDIR}/.config/termite
 	cp build/termite.cfg ${DESTDIR}/.config/termite/termite.cfg
+
+# TODO: Write a base16 template for foot, and include that
+install-terminal-foot: terminal/foot.ini
+	mkdir -p ${DESTDIR}/.config/foot
+	cp terminal/foot.ini ${DESTDIR}/.config/foot/foot.ini
 
 install-waybar: build/style.css waybar/config
 	cp build/style.css ${DESTDIR}/.config/waybar/style.css
