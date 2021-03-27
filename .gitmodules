@@ -7,3 +7,6 @@
 [submodule "vendor/esh"]
 	path = vendor/esh
 	url = https://github.com/jirutka/esh.git
+[submodule "terminal/base16-foot"]
+	path = terminal/base16-foot
+	url = https://gitlab.com/ArenM/base16-foot

@@ -20,7 +20,7 @@ install-sway: build/sway-config sway/background.jpg
 	# Git repo https://github.com/rkubosz/base16-sway.git be put at
 	# ${DESTDIR}/.config/sway/base16-sway
 
-install-terminal: install-terminal-foot install-terminal-alacritty install-terminal-foot
+install-terminal: install-terminal-termite install-terminal-alacritty install-terminal-foot
 
 install-terminal-alacritty: build/alacritty.yml 
 	mkdir -p ${DESTDIR}/.config/alacritty
@@ -30,10 +30,9 @@ install-terminal-termite: build/termite.cfg
 	mkdir -p ${DESTDIR}/.config/termite
 	cp build/termite.cfg ${DESTDIR}/.config/termite/termite.cfg
 
-# TODO: Write a base16 template for foot, and include that
-install-terminal-foot: terminal/foot.ini
+install-terminal-foot: build/foot.ini
 	mkdir -p ${DESTDIR}/.config/foot
-	cp terminal/foot.ini ${DESTDIR}/.config/foot/foot.ini
+	cp build/foot.ini ${DESTDIR}/.config/foot/foot.ini
 
 install-waybar: build/style.css waybar/config
 	cp build/style.css ${DESTDIR}/.config/waybar/style.css
@@ -45,6 +44,9 @@ install-zsh: build/zsh_plugins zsh/zshrc.zsh
 
 build/alacritty.yml: terminal/alacritty.yml env
 	./template.sh terminal/alacritty.yml > build/alacritty.yml
+
+build/foot.ini:
+	./template.sh terminal/foot.ini > build/foot.ini
 
 build/nvimrc: nvim/vimrc env
 	./template.sh nvim/vimrc > build/nvimrc
