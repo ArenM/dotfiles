@@ -9,62 +9,54 @@ install-theme: install-nvim install-sway install-waybar install-terminal
 env: ./base-env.sh
 
 # TODO: Install vim-plug
-install-nvim: build/nvimrc
+install-nvim: nvim/init.nvim.tmpl
 	mkdir -p ${DESTDIR}/.config/nvim/
-	cp build/nvimrc ${DESTDIR}/.config/nvim/init.vim
+	cp nvim/init.nvim.tmpl ${DESTDIR}/.config/nvim/init.vim
 
-install-sway: build/sway-config sway/background.jpg
+install-sway: sway/sway-config.tmpl sway/background.jpg
 	mkdir -p ${DESTDIR}/.config/sway
-	cp build/sway-config ${DESTDIR}/.config/sway/config
+	cp sway/sway-config.tmpl ${DESTDIR}/.config/sway/config
 	cp sway/background.jpg ${DESTDIR}/.config/sway/background.jpg
 	# Git repo https://github.com/rkubosz/base16-sway.git be put at
 	# ${DESTDIR}/.config/sway/base16-sway
 
 install-terminal: install-terminal-termite install-terminal-alacritty install-terminal-foot
 
-install-terminal-alacritty: build/alacritty.yml 
+install-terminal-alacritty: terminal/alacritty.yml.tmpl
 	mkdir -p ${DESTDIR}/.config/alacritty
-	cp build/alacritty.yml ${DESTDIR}/.config/alacritty/alacritty.yml
+	cp terminal/alacritty.yml.tmpl ${DESTDIR}/.config/alacritty/alacritty.yml
 
-install-terminal-termite: build/termite.cfg
+install-terminal-termite: terminal/termite.cfg.tmpl
 	mkdir -p ${DESTDIR}/.config/termite
-	cp build/termite.cfg ${DESTDIR}/.config/termite/termite.cfg
+	cp terminal/termite.cfg.tmpl ${DESTDIR}/.config/termite/termite.cfg
 
-install-terminal-foot: build/foot.ini
+install-terminal-foot: terminal/foot.ini.tmpl
 	mkdir -p ${DESTDIR}/.config/foot
-	cp build/foot.ini ${DESTDIR}/.config/foot/foot.ini
+	cp terminal/foot.ini.tmpl ${DESTDIR}/.config/foot/foot.ini
 
-install-waybar: build/style.css waybar/config
+install-tmux: tmux/tmux.conf.tmpl
+	@if [ ! -d ${DESTDIR}/.tmux/plugins/tpm ]; then \
+		git clone https://github.com/tmux-plugins/tpm.git \
+		${DESTDIR}/.tmux/plugins/tpm; \
+	fi	
+	cp tmux/tmux.conf.tmpl ${DESTDIR}/.tmux.conf
+
+install-waybar: waybar/style.css.tmpl waybar/config
 	mkdir -p ${DESTDIR}/.config/waybar
 	@if [ ! -d ${DESTDIR}/.config/waybar/base16-waybar ]; then \
 		git clone \
 		https://github.com/mnussbaum/base16-waybar.git \
 		${DESTDIR}/.config/waybar/base16-waybar; \
 	fi
-	cp build/style.css ${DESTDIR}/.config/waybar/style.css
+	cp waybar/style.css.tmpl ${DESTDIR}/.config/waybar/style.css
 	cp waybar/config ${DESTDIR}/.config/waybar/config
 
-install-zsh: build/zsh_plugins zsh/zshrc.zsh
-	cp build/zsh_plugins.txt ${DESTDIR}/.zsh_plugins
+install-zsh: zsh/zsh_plugins.txt.tmpl zsh/zshrc.zsh
+	cp zsh/zsh_plugins.txt.tmpl ${DESTDIR}/.zsh_plugins
 	cp zsh/zshrc.zsh ${DESTDIR}/.zshrc
 
-build/alacritty.yml: terminal/alacritty.yml env
-	./template.sh terminal/alacritty.yml > build/alacritty.yml
+%.tmpl: % env
+	./template.sh $< $@ > $@
 
-build/foot.ini:
-	./template.sh terminal/foot.ini > build/foot.ini
-
-build/nvimrc: nvim/vimrc env
-	./template.sh nvim/vimrc > build/nvimrc
-
-build/style.css: waybar/style.css env
-	./template.sh waybar/style.css > build/style.css
-
-build/sway-config: sway/sway-config env
-	./template.sh sway/sway-config > build/sway-config
-
-build/termite.cfg: terminal/termite.cfg env
-	./template.sh terminal/termite.cfg > build/termite.cfg
-
-build/zsh_plugins: zsh/zsh_plugins.txt env
-	./template.sh zsh/zsh_plugins.txt > build/zsh_plugins.txt
+clean:
+	find . -name "*.tmpl" -exec rm {} \;

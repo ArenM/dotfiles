@@ -15,6 +15,13 @@ set textwidth=80
 set colorcolumn=85
 set nowrap
 
+" Extra movement actions (mostly from kakoune)
+noremap gl $
+noremap gh ^
+noremap gH 0
+noremap gk gg
+noremap gj G
+
 " Basic keybinds which don't require plugins
 nmap <Space> \
 
@@ -85,10 +92,12 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'tpope/vim-fugitive', { 'on': [ 'G' ] }
 
   " Files / Buffers
+  " TODO: Replace with fzy for better search results
   Plug 'junegunn/fzf'
   Plug 'junegunn/fzf.vim', { 'on': ['Files', 'Buffers', 'Ag'] }
+  Plug 'cloudhead/neovim-fuzzy'
   Plug 'scrooloose/nerdtree', { 'on': [ 'NERDTreeToggle', 'NERDTree' ] }
-  Plug 'tpope/vim-eunuch', { 'on': [ 'Rename', 'Chmod', 'Mkdir', 'SudoWrite', 'SudoEdit' ] }
+  " Plug 'tpope/vim-eunuch', { 'on': [ 'Rename', 'Chmod', 'Mkdir', 'SudoWrite', 'SudoEdit' ] }
 
   " Code Minaplion
   Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh', }
@@ -97,11 +106,12 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-repeat'
   Plug 'junegunn/vim-easy-align'
+  " Plug 'michaelb/sniprun', {'do': 'bash ./install.sh'}
   " Code Coverage, maybe useful in the future
   " Plug 'retorillo/istanbul.vim'
 
   " File Navigation
-  Plug 'preservim/tagbar', { 'on': [ 'TagbarOpenAutoClose' ] }
+  Plug 'preservim/tagbar', { 'on': [ 'TagbarOpenAutoClose', 'Tagbar' ] }
   Plug 'wsdjeg/FlyGrep.vim', { 'on': [ 'FlyGrep' ] }
 
   " Auto Complete
@@ -116,7 +126,8 @@ call plug#begin('~/.config/nvim/plugged')
   " Filetype Plugins
   Plug 'sheerun/vim-polyglot'
   Plug 'rust-lang/rust.vim'
-  " Plug 'sirtaj/vim-openscad'
+  Plug 'sirtaj/vim-openscad'
+  Plug 'dpelle/vim-LanguageTool', { 'on': [ 'LanguageToolCheck' ] }
 
   " Look and Feel
   Plug 'chriskempson/base16-vim'
@@ -125,11 +136,13 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'itchyny/lightline.vim'
   Plug 'mengelbrecht/lightline-bufferline'
   Plug 'ryanoasis/vim-devicons'
-  " Plug 'iamcco/markdown-preview.nvim', {
-  "     \ 'do': { -> mkdp#util#install() },
-  "     \ 'for': ['markdown', 'vim-plug']
-  " \ }
+  Plug 'iamcco/markdown-preview.nvim', {
+      \ 'do': { -> mkdp#util#install() },
+      \ 'for': ['markdown', 'vim-plug']
+  \ }
 call plug#end()
+
+let g:languagetool_cmd='/usr/bin/languagetool'
 
 " NOTE: This may break in some terminals, maybe add a check later
 set termguicolors
@@ -176,12 +189,17 @@ let g:FlyGrep_input_delay = 40
 " Keybindings
 "
 
+" SnipRun
+nmap <silent> <Leader>s <Plug>SnipRun
+vmap <silent> <Leader>s <Plug>SnipRun
+
 " FZF
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 noremap <C-f> :Files<CR>
+noremap <Leader>f :Files<CR>
 noremap <Leader>b :Buffers<CR>
 
-nmap <silent> <Leader>o :TagbarOpenAutoClose<CR>
+nmap <silent> <Leader>o :Tagbar<CR>
 
 nmap <Leader>g :FlyGrep<CR>
 
