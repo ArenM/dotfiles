@@ -54,6 +54,8 @@ install-waybar: waybar/style.css.tmpl waybar/config
 install-zsh: zsh/zsh_plugins.txt.tmpl zsh/zshrc.zsh
 	cp zsh/zsh_plugins.txt.tmpl ${DESTDIR}/.zsh_plugins
 	cp zsh/zshrc.zsh ${DESTDIR}/.zshrc
+	antibody bundle < "${DESTDIR}/.zsh_plugins" > "${DESTDIR}/.zsh_plugins.sh"
+	antibody update
 
 %.tmpl: % env
 	./template.sh $< $@ > $@
