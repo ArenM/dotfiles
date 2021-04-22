@@ -15,12 +15,16 @@ set textwidth=80
 set colorcolumn=85
 set nowrap
 
+set inccommand=split
+
 " Extra movement actions (mostly from kakoune)
 noremap gl $
 noremap gh ^
 noremap gH 0
 noremap gk gg
 noremap gj G
+nnoremap <Enter> i
+nnoremap U <c-r>
 
 " Basic keybinds which don't require plugins
 nmap <Space> \
@@ -136,11 +140,23 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'itchyny/lightline.vim'
   Plug 'mengelbrecht/lightline-bufferline'
   Plug 'ryanoasis/vim-devicons'
+  Plug 'junegunn/goyo.vim'
+
+  " Extra Tools
+  Plug 'vimwiki/vimwiki'
   Plug 'iamcco/markdown-preview.nvim', {
       \ 'do': { -> mkdp#util#install() },
       \ 'for': ['markdown', 'vim-plug']
   \ }
 call plug#end()
+
+let g:vimwiki_list = [
+\ {'path': '~/Nextcloud/school/Optics 199/notes/',
+\  'path_html': '/tmp/optics_notes_rendered/',
+\  'template_path': '~/Nextcloud/school/Optics 199/notes/templates/',
+\  'template_default': 'default',
+\  'template_ext': '.html',
+\ }]
 
 let g:languagetool_cmd='/usr/bin/languagetool'
 
@@ -200,6 +216,7 @@ noremap <Leader>f :Files<CR>
 noremap <Leader>b :Buffers<CR>
 
 nmap <silent> <Leader>o :Tagbar<CR>
+nmap <silent> <Leader>n :NERDTreeToggle<CR>
 
 nmap <Leader>g :FlyGrep<CR>
 
@@ -215,8 +232,8 @@ function SetupLSP()
   " nmap <Leader>o :call LanguageClient_textDocument_documentSymbol()<CR>
 
   nmap <Leader>r :call LanguageClient#textDocument_rename()<CR>
-  nmap <Leader>f :call LanguageClient#textDocument_formatting()<CR>
-  vmap <Leader>f :call LanguageClient#textDocument_rangeFormatting()<CR>
+  nmap <Leader>= :call LanguageClient#textDocument_formatting()<CR>
+  vmap <Leader>= :call LanguageClient#textDocument_rangeFormatting()<CR>
   nmap <Leader>a :call LanguageClient_textDocument_codeAction()<CR>
 endfunction()
 
