@@ -31,8 +31,8 @@ nmap <Space> \
 
 noremap Y y$
 
-" TODO: This would be nice if it didn't also map Esc
-" tnoremap <C-[> <C-\><C-N>
+" Get out of terminal mode a bit easier
+tnoremap \<Esc>     <C-\><C-n>
 
 " Buffer switching
 noremap <Tab> :bnext<CR>
@@ -101,9 +101,9 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'junegunn/fzf.vim', { 'on': ['Files', 'Buffers', 'Ag'] }
   Plug 'cloudhead/neovim-fuzzy'
   Plug 'scrooloose/nerdtree', { 'on': [ 'NERDTreeToggle', 'NERDTree' ] }
-  " Plug 'tpope/vim-eunuch', { 'on': [ 'Rename', 'Chmod', 'Mkdir', 'SudoWrite', 'SudoEdit' ] }
+  Plug 'tpope/vim-eunuch', { 'on': [ 'Rename', 'Chmod', 'Mkdir', 'SudoWrite', 'SudoEdit' ] }
 
-  " Code Minaplion
+  " Buffer Minaplion
   Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh', }
   Plug 'Shougo/echodoc.vim'
   Plug 'tpope/vim-commentary'
@@ -143,20 +143,26 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'junegunn/goyo.vim'
 
   " Extra Tools
+  <% if $VIMWIKI; then -%>
   Plug 'vimwiki/vimwiki'
+  <% fi -%>
   Plug 'iamcco/markdown-preview.nvim', {
       \ 'do': { -> mkdp#util#install() },
       \ 'for': ['markdown', 'vim-plug']
   \ }
 call plug#end()
 
+<% if $VIMWIKI; then -%>
+"\ {'path': '~/Nextcloud/school/ksc/Optics 199/notes/',
 let g:vimwiki_list = [
-\ {'path': '~/Nextcloud/school/Optics 199/notes/',
+\ {'path': '~/Nextcloud/personal-wiki/',
 \  'path_html': '/tmp/optics_notes_rendered/',
-\  'template_path': '~/Nextcloud/school/Optics 199/notes/templates/',
+\  'template_path': '~/Nextcloud/school/ksc/Optics 199/notes/templates/',
 \  'template_default': 'default',
 \  'template_ext': '.html',
+\  'html_template': '/home/aren/Nextcloud/school/ksc/Optics 199/notes/templates/default.html'
 \ }]
+<% fi -%>
 
 let g:languagetool_cmd='/usr/bin/languagetool'
 
@@ -241,3 +247,5 @@ augroup LSP
   au!
   autocmd FileType c,cpp,json,python,rust call SetupLSP()
 augroup end
+
+" vim: syntax=vim
