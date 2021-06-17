@@ -13,9 +13,10 @@ install-nvim: nvim/init.nvim.tmpl
 	mkdir -p ${DESTDIR}/.config/nvim/
 	cp nvim/init.nvim.tmpl ${DESTDIR}/.config/nvim/init.vim
 
-install-sway: sway/sway-config.tmpl sway/background.jpg
+install-sway: sway/sway-config.tmpl sway/move-modes.conf.tmpl sway/background.jpg
 	mkdir -p ${DESTDIR}/.config/sway
 	cp sway/sway-config.tmpl ${DESTDIR}/.config/sway/config
+	cp sway/move-modes.conf.tmpl ${DESTDIR}/.config/sway/move-modes.conf
 	cp sway/background.jpg ${DESTDIR}/.config/sway/background.jpg
 	# Git repo https://github.com/rkubosz/base16-sway.git be put at
 	# ${DESTDIR}/.config/sway/base16-sway

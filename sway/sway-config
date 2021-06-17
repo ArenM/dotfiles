@@ -36,6 +36,16 @@ set $menu wofi --show drun --allow-images --allow-markup | swaymsg exec
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 output VGA-1 position 1366,0
 output LVDS-1 position 0,0
+
+output "Hewlett Packard HP E231i 3CQ4342RJB"   position 0 0
+output "Lenovo Group Limited P24q-10 U4P00001" position 1080 240
+output "Hewlett Packard HP E231i 3CQ433081G"   position 3640 0
+
+output "Hewlett Packard HP E231i 3CQ4342RJB" transform 90
+output "Hewlett Packard HP E231i 3CQ433081G" transform 270
+
+include ./move-modes.conf
+
 ### Idle configuration
 #
 # Example configuration:
