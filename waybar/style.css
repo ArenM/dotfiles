@@ -1,16 +1,24 @@
-@import "{{ grains.homedir }}/.config/waybar/base16-waybar/colors/base16-{{theme}}.css";
+@import "<%= $HOME %>/.config/waybar/base16-waybar/colors/base16-<%= $THEME %>.css";
 
 * {
   border: none;
   font-family: "VictorMono Nerd Font", sans-serif;
-  font-size: 12.5pt;
+  <% if $RICE; then -%>
+  font-size: 13pt;
+  <% else -%>
+  font-size: 12pt;
+  <% fi -%>
   font-weight: 600;
   min-height: 0;
   transition: none;
 }
 
 window#waybar {
+  <% if $RICE; then -%>
+  background-color: transparent;
+  <% else -%>
   background-color: @base00;
+  <% fi -%>
   color: @base05;
   transition-property: background-color;
   transition-duration: 0.5s;
@@ -25,7 +33,12 @@ window#waybar.empty {
 }
 
 window#waybar > box {
-  padding: 3px;
+  <% if $RICE; then -%>
+  padding: 0 25px 8px;
+  padding-top: 0;
+  <% else -%>
+  padding: 0px;
+  <% fi -%>
 }
 
 #backlight,

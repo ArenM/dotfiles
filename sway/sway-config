@@ -14,7 +14,7 @@ set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-set $term {{ terminal }}
+set $term <%= $TERMINAL %>
 # Your preferred application launcher
 # Note: it's recommended that you pass the final command to sway
 #set $menu rofi -show drun -show-icons | swaymsg exec
@@ -25,7 +25,7 @@ set $menu wofi --show drun --allow-images --allow-markup | swaymsg exec
 # Default wallpaper (more resolutions are available in __DATADIR__/backgrounds/sway/)
 #output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 #output * bg $HOME/.cache/earthbg/image.jpg fit #000000
-output * bg {{ home }}/.config/sway/background.jpg fill
+# output * bg <%= $HOME -%>/.config/sway/background.jpg fill
 
 
 #
@@ -79,9 +79,11 @@ input "type:touchpad" {
 ### Startup Configuration
 exec redshift -m wayland
 exec nextcloud
+exec oguri
+exec variety
 
 ### Appearance
-set $base16theme {{ theme }} 
+set $base16theme <%= $THEME %> 
 include ./base16-sway/themes/base16-$base16theme.config
 font pango:FontAwesome Regular 12px, Hack Regular 12px
 
@@ -249,10 +251,15 @@ bar {
     }
 }
 
-default_border none
+default_border pixel 2
+smart_borders on
+<% if $RICE; then -%>
+smart_gaps off
+gaps inner 40px
+<% else -%>
 smart_gaps on
 gaps inner 10px
-
+<% fi -%>
 #                       Border  BG      Text    Ind     Child Border
 client.focused          $base0D $base0D $base00 $base0D $base0D
 client.focused_inactive $base01 $base01 $base05 $base03 $base01
@@ -263,7 +270,7 @@ set $gnome-schema org.gnome.desktop.interface
 
 # TODO: only do this when the theme is installed, use a fallback when not
 exec_always {
-    gsettings set $gnome-schema gtk-theme '{{ gtk_theme }}'
+    gsettings set $gnome-schema gtk-theme '<%= $GTK_THEME %>'
     gsettings set $gnome-schema icon-theme 'Tela-orange'
     gsettings set $gnome-schema cursor-theme 'Adwaita'
 }
