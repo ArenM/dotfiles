@@ -1,9 +1,6 @@
 # Plugins
 source $HOME/.zsh_plugins.sh
 
-# Prompt
-eval $(starship init zsh)
-
 # Interaction
 autoload -Uz compinit
 compinit -D

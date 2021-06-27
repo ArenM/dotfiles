@@ -5,6 +5,7 @@ GLES3=true
 GTK_THEME=Breeze
 THEME=atelier-dune-light
 RICE=false
+ZSH_FEATURES=light
 
 # Application Specific Customization
 VIMWIKI=false
