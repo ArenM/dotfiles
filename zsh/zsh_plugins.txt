@@ -1,14 +1,22 @@
 zsh-users/zsh-completions
+zdharma/fast-syntax-highlighting
+zsh-users/zsh-history-substring-search
+
+<% if [ "$ZSH_FEATURES" = 'full' ]; then %>
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-syntax-highlighting
-zsh-users/zsh-history-substring-search
-<% if [ "$TERMINAL" = 'termite' ]; then %>
-https://github.com/trystan2k/zsh-tab-title
 <% fi -%>
 
+<% if [ "$TERMINAL" = 'termite' ]; then %>
+trystan2k/zsh-tab-title
+<% fi -%>
+
+mafredri/zsh-async
+
 # Theme
-starship/starship
+sindresorhus/pure
+# spaceship-prompt/spaceship-prompt
+# starship/starship
 #romkatv/powerlevel10k
-#denysdovhan/spaceship-prompt
 #tylerreckart/hyperzsh
-#halfo/lambda-mod-zsh-theme
+# halfo/lambda-mod-zsh-theme
