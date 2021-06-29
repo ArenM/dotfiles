@@ -13,6 +13,9 @@ bindkey "^[[1;5C" forward-word			# Crtl Right Arrow
 bindkey "^[[H"    beginning-of-line		# Home
 bindkey "^[[F"    end-of-line			# End
 
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+setopt no_list_ambiguous
+
 # History
 export HISTFILE="$HOME/.zsh_history"
 export HISTSIZE=50000
@@ -22,9 +25,16 @@ setopt sharehistory
 setopt hist_expire_dups_first
 
 # Enviroment
-export PATH="$PATH:$HOME/.cargo/bin:$HOME/.local/bin:$HOME/.npm-packages/bin"
+if [ "$PATHS" != "true" ]; then
+    export PATH="$PATH:$HOME/.cargo/bin:$HOME/.local/bin:$HOME/.npm-packages/bin"
+    export PATHS="true"
+fi
+
 export EDITOR=nvim
 
-alias e="$EDITOR"
+# alias e="$EDITOR"
 alias ls="ls --color"
 alias ll="ls -alh"
+if (( $+commands[yay] )); then
+    alias yay="LESS=SR yay"
+fi

@@ -1,16 +1,14 @@
 zsh-users/zsh-completions
 zdharma/fast-syntax-highlighting
 zsh-users/zsh-history-substring-search
+trystan2k/zsh-tab-title
 
 <% if [ "$ZSH_FEATURES" = 'full' ]; then %>
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-syntax-highlighting
 <% fi -%>
 
-<% if [ "$TERMINAL" = 'termite' ]; then %>
-trystan2k/zsh-tab-title
-<% fi -%>
-
+# Required for the pure prompt
 mafredri/zsh-async
 
 # Theme
