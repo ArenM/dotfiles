@@ -92,31 +92,59 @@ endfunction
 
 call plug#begin('~/.config/nvim/plugged')
   " Git
-  Plug 'airblade/vim-gitgutter'
   Plug 'tpope/vim-fugitive', { 'on': [ 'G' ] }
+  
+  <% if $NVIM_LUA; then -%>
+  " Neovim 0.5 Plugins
+  Plug 'nvim-lua/popup.nvim'
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-telescope/telescope.nvim'
+  Plug 'nvim-telescope/telescope-hop.nvim'
+
+  Plug 'neovim/nvim-lspconfig'
+  " TODO, also p00f/nvim-ts-rainbow
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  " TODO: Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+
+  Plug 'hrsh7th/nvim-compe'
+  " Plug 'ray-x/lsp_signature.nvim'
+
+  Plug 'phaazon/hop.nvim'
+  Plug 'lewis6991/gitsigns.nvim'
+  Plug 'lukas-reineke/indent-blankline.nvim'
+  <% else -%>
+  " Legacy Plugins
+  Plug 'junegunn/fzf'
+  Plug 'junegunn/fzf.vim', { 'on': ['Files', 'Buffers', 'Ag'] }
+  Plug 'wsdjeg/FlyGrep.vim', { 'on': [ 'FlyGrep' ] }
+  Plug 'cloudhead/neovim-fuzzy' "fzy
+
+  Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh', }
+
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+
+  Plug 'airblade/vim-gitgutter'
+  <% fi -%>
 
   " Files / Buffers
   " TODO: Replace with fzy for better search results
-  Plug 'junegunn/fzf'
-  Plug 'junegunn/fzf.vim', { 'on': ['Files', 'Buffers', 'Ag'] }
-  Plug 'cloudhead/neovim-fuzzy'
   Plug 'scrooloose/nerdtree', { 'on': [ 'NERDTreeToggle', 'NERDTree' ] }
   Plug 'tpope/vim-eunuch', { 'on': [ 'Rename', 'Chmod', 'Mkdir', 'SudoWrite', 'SudoEdit' ] }
 
   " Buffer Minaplion
-  Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh', }
   Plug 'Shougo/echodoc.vim'
   Plug 'tpope/vim-commentary'
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-repeat'
   Plug 'junegunn/vim-easy-align'
+  " Auto pairs
+  " Plug 'cohama/lexima.vim'
   " Plug 'michaelb/sniprun', {'do': 'bash ./install.sh'}
   " Code Coverage, maybe useful in the future
   " Plug 'retorillo/istanbul.vim'
 
   " File Navigation
   Plug 'preservim/tagbar', { 'on': [ 'TagbarOpenAutoClose', 'Tagbar' ] }
-  Plug 'wsdjeg/FlyGrep.vim', { 'on': [ 'FlyGrep' ] }
 
   " Auto Complete
   " Plug 'prabirshrestha/asyncomplete.vim'
@@ -125,7 +153,6 @@ call plug#begin('~/.config/nvim/plugged')
 
   " Plug 'roxma/nvim-yarp'
   " Plug 'ncm2/ncm2'
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
   " Filetype Plugins
   Plug 'sheerun/vim-polyglot'
@@ -152,6 +179,20 @@ call plug#begin('~/.config/nvim/plugged')
   \ }
 call plug#end()
 
+let g:indentLine_char = '│'
+let g:indent_blankline_buftype_exclude = ['terminal']
+let g:indent_blankline_filetype_exclude = ['help']
+let g:indent_blankline_show_current_context = v:true
+let g:indent_blankline_show_end_of_line = v:true
+let g:indent_blankline_show_trailing_blankline_indent = v:false
+let g:indent_blankline_space_char = '⋅'
+let g:indent_blankline_use_treesitter = v:true
+
+let g:rainbow_active = 0
+autocmd FileType scheme RainbowToggleOn
+
+" Somethiing with spaces aftrward for testing          
+
 <% if $VIMWIKI; then -%>
 "\ {'path': '~/Nextcloud/school/ksc/Optics 199/notes/',
 let g:vimwiki_list = [
@@ -162,6 +203,8 @@ let g:vimwiki_list = [
 \  'template_ext': '.html',
 \  'html_template': '/home/aren/Nextcloud/school/ksc/Optics 199/notes/templates/default.html'
 \ }]
+
+let g:vimiwki_filetypes = [ ]
 <% fi -%>
 
 let g:languagetool_cmd='/usr/bin/languagetool'
@@ -172,19 +215,6 @@ colorscheme base16-<%= $THEME %>
 
 let g:echodoc#enable_at_startup = 1
 let g:echodoc#type = 'floating'
-
-autocmd BufEnter * call deoplete#enable()
-inoremap <expr> <C-n> pumvisible() ? '<C-n>' : '<C-r>=deoplete#manual_complete()<CR>'
-inoremap <expr> <C-p> pumvisible() ? '<C-n>' : '<C-r>=deoplete#manual_complete()<CR>'
-
-" neovim-languageclient
-let g:LanguageClient_serverCommands = {
-  \ 'c': ['clangd'],
-  \ 'cpp': ['clangd'],
-  \ 'json': ['json-languageserver', '--stdio'],
-  \ 'python': ['pyls'],
-  \ 'rust': ['rust-analyzer'],
-  \ }
 
 set showtabline=2
 let g:lightline = {
@@ -204,9 +234,6 @@ let g:lightline = {
 let g:lightline#bufferline#show_number = 2
 let g:lightline#bufferline#min_buffer_count = 2
 
-" Fly Grep
-let g:FlyGrep_input_delay = 40
-
 "
 " Keybindings
 "
@@ -214,6 +241,165 @@ let g:FlyGrep_input_delay = 40
 " SnipRun
 nmap <silent> <Leader>s <Plug>SnipRun
 vmap <silent> <Leader>s <Plug>SnipRun
+
+" Tagbar
+nmap <silent> <Leader>o :Tagbar<CR>
+
+" Nerdtree
+nmap <silent> <Leader>n :NERDTreeToggle<CR>
+nmap <silent> <Leader>t :NERDTreeToggle<CR>
+
+<% if $NVIM_LUA; then -%>
+noremap <C-f> <cmd>Telescope find_files<CR>
+noremap <Leader>f <cmd>Telescope find_files<CR>
+noremap <Leader>i <cmd>Telescope file_browser<CR>
+
+noremap <Leader>b <cmd>Telescope buffers<CR>
+" noremap <Leader>b <cmd>:lua telescope_buffer_hints<CR> " TODO
+
+noremap <Leader>g <cmd>Telescope live_grep<CR>
+noremap <Leader>q <cmd>Telescope quickfix<CR>
+
+noremap <Leader>gs <cmd>Telescope git_status<CR>
+noremap <leader>gb <cmd>Telescope git_branch<CR>
+
+inoremap <silent><expr> <C-Space> compe#complete()
+" inoremap <silent><expr> <CR>      compe#confirm(lexima#expand('<LT>CR>', 'i'))
+inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+
+" LSP Settings and keybinds
+lua << EOS
+local nvim_lsp = require 'lspconfig'
+local telescope = require 'telescope'
+local gitsigns = require 'gitsigns'
+
+gitsigns.setup {}
+require'hop'.setup {}
+
+vim.o.completeopt = "menuone,noselect"
+require'compe'.setup {
+  enabled = true;
+  autocomplete = true;
+  debug = false;
+  min_length = 1;
+  preselect = 'enable';
+  throttle_time = 80;
+  source_timeout = 200;
+  resolve_timeout = 800;
+  incomplete_delay = 400;
+  max_abbr_width = 100;
+  max_kind_width = 100;
+  max_menu_width = 100;
+  documentation = true;
+
+  source = {
+    path = true;
+    buffer = true;
+    spell = true;
+    calc = true;
+    nvim_lsp = true;
+    nvim_lua = true;
+  };
+};
+
+telescope.setup{
+  -- TODO: This isn't quite right, I should impliment the theme myself
+  defaults = require("telescope.themes").get_ivy {
+    file_sorter = require'telescope.sorters'.get_fzy_sorter,
+    generic_sorter = require'telescope.sorters'.get_generic_fzy_sorter,
+  },
+  pickers = {
+    buffers = {
+      theme = "ivy",
+      sort_lastused = true,
+      -- initial_mode = "normal",
+      on_complete = { function()
+        vim.cmd "stopinsert"
+        -- require'telescope'.extensions.hop._hop(picker.results_bufnr, {callback = actions.edit})
+      end },
+      mappings = {
+        i = {
+          ["<c-x>"] = "delete_buffer",
+        },
+        n = {
+          ["x"] = "delete_buffer",
+          ["f"] = require("telescope").extensions.hop.hop,
+        },
+      },
+    },
+  },
+  extensions = {
+    hop = {},
+  }
+}
+
+telescope.load_extension('hop')
+
+-- telescope.load_extention('fzy_native')
+
+require'nvim-treesitter.configs'.setup {
+  -- TODO: It may be more efficient to only install language packages for
+  -- languages I work with
+  ensure_installed = "maintained",
+  ignore_install = {},
+  highlight = {
+    enable = true
+  },
+  incremental_selection = {
+    enable = true
+  },
+  indent = {
+    enable = true
+  },
+}
+
+local on_attach = function(client, buffer)
+  -- require'lsp_signature'.on_attach()
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  --Enable completion triggered by <c-x><c-o>
+  -- buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
+
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap('n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  --buf_set_keymap('n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+  buf_set_keymap('n', '<leader>r', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+end
+
+local servers = { "clangd", "rust_analyzer" }
+-- TODO: This causes an error when going into insert mode "Not allowed here"
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup { on_attach = on_attach }
+end
+EOS
+<% else -%>
+" Deoplete
+" autocmd BufEnter * call deoplete#enable()
+let g:deoplete#enable_at_startup = 1
+inoremap <expr> <C-n> pumvisible() ? '<C-n>' : '<C-r>=deoplete#manual_complete()<CR>'
+inoremap <expr> <C-p> pumvisible() ? '<C-n>' : '<C-r>=deoplete#manual_complete()<CR>'
 
 " FZF
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'
@@ -224,7 +410,19 @@ noremap <Leader>b :Buffers<CR>
 nmap <silent> <Leader>o :Tagbar<CR>
 nmap <silent> <Leader>n :NERDTreeToggle<CR>
 
+" Fly Grep
+let g:FlyGrep_input_delay = 40
 nmap <Leader>g :FlyGrep<CR>
+
+" neovim-languageclient
+let g:LanguageClient_serverCommands = {
+  \ 'c': ['clangd'],
+  \ 'cpp': ['clangd'],
+  \ 'json': ['json-languageserver', '--stdio'],
+  \ 'python': ['pyls'],
+  \ 'rust': ['rust-analyzer'],
+  \ }
+
 
 " LanguageClient Key Bindings
 function SetupLSP()
@@ -247,5 +445,7 @@ augroup LSP
   au!
   autocmd FileType c,cpp,json,python,rust call SetupLSP()
 augroup end
+<% fi -%>
 
 " vim: syntax=vim
+" vim: ft=vim
