@@ -1,3 +1,4 @@
+" TODO: All of these settings need to be organized somehow
 set nocompatible
 
 " dont discard buffers when switching to a different one
@@ -10,6 +11,9 @@ set number
 set wildmode=longest:full
 set wildmenu
 set relativenumber
+set ignorecase
+set smartcase
+set timeoutlen=300
 
 set textwidth=80
 set colorcolumn=85
@@ -17,34 +21,55 @@ set nowrap
 
 set inccommand=split
 
+" Font for when neovim is running in a gui
+set guifont=InputMono
+
 " Extra movement actions (mostly from kakoune)
 noremap gl $
 noremap gh ^
 noremap gH 0
 noremap gk gg
 noremap gj G
-nnoremap <Enter> i
+" nnoremap <Enter> i
 nnoremap U <c-r>
 
 " Basic keybinds which don't require plugins
-nmap <Space> \
-
-noremap Y y$
+nmap <Space> <leader>
 
 " Get out of terminal mode a bit easier
-tnoremap \<Esc>     <C-\><C-n>
+tnoremap \<esc>     <c-\><c-n>
+tnoremap <c-z><c-z> <c-\><c-n>
+
+" Clear search highlight
+noremap <leader>ch <cmd>noh
 
 " Buffer switching
 noremap <Tab> :bnext<CR>
 noremap <S-Tab> :bprev<CR>
 
-" File Type Config
-autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
-autocmd FileType go setlocal expandtab shiftwidth=4 softtabstop=4
-autocmd FileType c setlocal expandtab shiftwidth=4 softtabstop=4
+" Easier window switching
+noremap <a-h> <cmd>wincmd h<CR>
+noremap <a-j> <cmd>wincmd j<CR>
+noremap <a-k> <cmd>wincmd k<CR>
+noremap <a-l> <cmd>wincmd l<CR>
 
-" I prefer spaces over tabs
-set expandtab
+noremap sh :set nosplitright<CR>:vsplit<CR>:set splitright<CR>
+noremap sj :set splitbelow<CR>:split<CR>
+noremap sk :set nosplitbelow<CR>:split<CR>:set splitbelow<CR>
+noremap sl :set splitright<CR>:vsplit<CR>
+
+" Yank & Paste mappings
+noremap Y y$
+noremap <Leader>y "+y
+noremap <Leader>p "+p
+
+" Save undo history to a file
+" NOTE: I have plenty of resources to spare on my computer, but this could
+"       potentially cause performance issues
+set undodir=~/.local/share/nvim/undo
+set undofile
+set undolevels=10000
+set undoreload=100000
 
 "
 " Folding styles
@@ -52,6 +77,7 @@ set expandtab
 
 " Setting fillchars/fold to a space. It's there you just can't see it.
 set fillchars=fold:\  
+set fillchars+=vert:\│
 set foldtext=CleanFoldText()
 autocmd FileType rust if FoldCondition() | call EnableFolding() | endif
 
