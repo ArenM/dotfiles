@@ -96,22 +96,32 @@ call plug#begin('~/.config/nvim/plugged')
   
   <% if $NVIM_LUA; then -%>
   " Neovim 0.5 Plugins
+
+  " Dependcies
   Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-lua/plenary.nvim'
+
+  " Utilities
   Plug 'nvim-telescope/telescope.nvim'
+  " Note to self, there's a generic versin which does't supporte telescope
   Plug 'nvim-telescope/telescope-hop.nvim'
-
-  Plug 'neovim/nvim-lspconfig'
-  " TODO, also p00f/nvim-ts-rainbow
-  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  " TODO: Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-
-  Plug 'hrsh7th/nvim-compe'
-  " Plug 'ray-x/lsp_signature.nvim'
-
-  Plug 'phaazon/hop.nvim'
   Plug 'lewis6991/gitsigns.nvim'
+  Plug 'ThePrimeagen/harpoon'
+  " Might be useful for lsp diagnostics in the future
+  " Plug 'folke/trouble.nvim'
+
+  " Looks and data sources
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  Plug 'nvim-treesitter/nvim-treesitter-textobjects'
   Plug 'lukas-reineke/indent-blankline.nvim'
+  " Needs session config, see todo on vim-obsession
+  " also look into vim-startify
+  " Plug 'glepnir/dashboard-nvim'
+
+  " Completion
+  Plug 'hrsh7th/nvim-compe'
+  Plug 'ray-x/lsp_signature.nvim'
   <% else -%>
   " Legacy Plugins
   Plug 'junegunn/fzf'
@@ -138,10 +148,11 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'tpope/vim-repeat'
   Plug 'junegunn/vim-easy-align'
   " Auto pairs
-  " Plug 'cohama/lexima.vim'
-  " Plug 'michaelb/sniprun', {'do': 'bash ./install.sh'}
+  Plug 'cohama/lexima.vim'
+  Plug 'michaelb/sniprun', {'do': 'bash ./install.sh'}
   " Code Coverage, maybe useful in the future
   " Plug 'retorillo/istanbul.vim'
+  Plug 'vim-test/vim-test'
 
   " File Navigation
   Plug 'preservim/tagbar', { 'on': [ 'TagbarOpenAutoClose', 'Tagbar' ] }
@@ -181,11 +192,12 @@ call plug#end()
 
 let g:indentLine_char = '│'
 let g:indent_blankline_buftype_exclude = ['terminal']
-let g:indent_blankline_filetype_exclude = ['help']
+let g:indent_blankline_filetype_exclude = ['help', 'dashboard']
 let g:indent_blankline_show_current_context = v:true
 let g:indent_blankline_show_end_of_line = v:true
 let g:indent_blankline_show_trailing_blankline_indent = v:false
-let g:indent_blankline_space_char = '⋅'
+" let g:indent_blankline_space_char = '⋅'
+let g:indent_blankline_space_char = ' '
 let g:indent_blankline_use_treesitter = v:true
 
 let g:rainbow_active = 0
@@ -239,22 +251,33 @@ let g:lightline#bufferline#min_buffer_count = 2
 "
 
 " SnipRun
-nmap <silent> <Leader>s <Plug>SnipRun
-vmap <silent> <Leader>s <Plug>SnipRun
+nmap <silent> <Leader>s  <Plug>SnipRun
+vmap <silent> <Leader>s  <Plug>SnipRun
+nmap <silent> <Leader>sc <Plug>SnipReset
 
 " Tagbar
 nmap <silent> <Leader>o :Tagbar<CR>
 
 " Nerdtree
 nmap <silent> <Leader>n :NERDTreeToggle<CR>
-nmap <silent> <Leader>t :NERDTreeToggle<CR>
+
+" Test driven development
+" TODO: map <Leader>t to either TestNearest or TestFile
+" Also configure the strategy
+noremap <Leader>tn <cmd>TestNearest<CR>
+noremap <Leader>tf <cmd>TestFile<CR>
+noremap <Leader>ts <cmd>TestSuite<CR>
 
 <% if $NVIM_LUA; then -%>
+"
+" Telescope
+"
 noremap <C-f> <cmd>Telescope find_files<CR>
 noremap <Leader>f <cmd>Telescope find_files<CR>
-noremap <Leader>i <cmd>Telescope file_browser<CR>
+noremap <Leader>e <cmd>Telescope file_browser<CR>
 
 noremap <Leader>b <cmd>Telescope buffers<CR>
+noremap <Leader>bb <cmd>Telescope buffers<CR>
 " noremap <Leader>b <cmd>:lua telescope_buffer_hints<CR> " TODO
 
 noremap <Leader>g <cmd>Telescope live_grep<CR>
@@ -264,20 +287,43 @@ noremap <Leader>gs <cmd>Telescope git_status<CR>
 noremap <leader>gb <cmd>Telescope git_branch<CR>
 
 inoremap <silent><expr> <C-Space> compe#complete()
-" inoremap <silent><expr> <CR>      compe#confirm(lexima#expand('<LT>CR>', 'i'))
-inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+inoremap <silent><expr> <CR>      compe#confirm(lexima#expand('<LT>CR>', 'i'))
+" inoremap <silent><expr> <CR>      compe#confirm('<CR>')
 inoremap <silent><expr> <C-e>     compe#close('<C-e>')
 inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
 inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+
+let g:dashboard_default_executive = 'telescope'
+
+"
+" Harpoon
+"
+noremap <leader>a <cmd>lua require("harpoon.mark").add_file()<cr>
+noremap <c-e>     <cmd>lua require("harpoon.ui").toggle_quick_menu()<cr>
+
+noremap <leader>ba <cmd>lua require("harpoon.ui").nav_file(1)<cr>
+noremap <leader>bs <cmd>lua require("harpoon.ui").nav_file(2)<cr>
+noremap <leader>bd <cmd>lua require("harpoon.ui").nav_file(3)<cr>
+noremap <leader>bf <cmd>lua require("harpoon.ui").nav_file(4)<cr>
+
+noremap <leader>td <cmd>lua require("harpoon.term").gotoTerminal(1)<cr>
+noremap <leader>tf <cmd>lua require("harpoon.term").gotoTerminal(2)<cr>
+noremap <leader>trd <cmd>lua require("harpoon.term").sendCommand(1, 1)<cr>
+noremap <leader>trf <cmd>lua require("harpoon.term").sendCommand(1, 2)<cr>
 
 " LSP Settings and keybinds
 lua << EOS
 local nvim_lsp = require 'lspconfig'
 local telescope = require 'telescope'
-local gitsigns = require 'gitsigns'
 
-gitsigns.setup {}
-require'hop'.setup {}
+require'sniprun'.setup({
+  display = {
+    "Terminal"
+  }
+})
+
+require'gitsigns'.setup {}
+-- require'trouble'.setup {}
 
 vim.o.completeopt = "menuone,noselect"
 require'compe'.setup {
@@ -310,6 +356,18 @@ telescope.setup{
   defaults = require("telescope.themes").get_ivy {
     file_sorter = require'telescope.sorters'.get_fzy_sorter,
     generic_sorter = require'telescope.sorters'.get_generic_fzy_sorter,
+    mappings = {
+      i = {
+        ["<c-g>"] = require("telescope").extensions.hop.hop,
+        ["<c-f>"] = require("telescope").extensions.hop.hop,
+        ["<c-s>"] = require("telescope").extensions.hop.hop_toggle_selection,
+      },
+      n = {
+        ["g"] = require("telescope").extensions.hop.hop,
+        ["f"] = require("telescope").extensions.hop.hop,
+        ["s"] = require("telescope").extensions.hop.hop_toggle_selection,
+      },
+    },
   },
   pickers = {
     buffers = {
@@ -368,24 +426,26 @@ local on_attach = function(client, buffer)
   local opts = { noremap=true, silent=true }
 
   -- See `:help vim.lsp.*` for documentation on any of the below functions
-  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  -- TODO: replace with gbrlsnchs/telescope-lsp-handlers.nvim
+  buf_set_keymap('n', 'gd',         '<Cmd>Telescope lsp_definitions<CR>', opts)
+  buf_set_keymap('n', 'gi',         '<cmd>Telescope lsp_implementations<CR>', opts)
+  buf_set_keymap('n', '<leader>ca', '<cmd>Telescope lsp_code_actions<CR>', opts)
+  buf_set_keymap('n', '<leader>cr', '<cmd>Telescope lsp_range_code_actions<CR>', opts)
+  buf_set_keymap('n', 'gr',         '<cmd>Telescope lsp_references<CR>', opts)
+  buf_set_keymap('n', 'gD',         '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'K',          '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', '<C-k>',      '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   buf_set_keymap('n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
   buf_set_keymap('n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  --buf_set_keymap('n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  buf_set_keymap('n', '<leader>D',  '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', '<leader>e',  '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '[d',         '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d',         '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '<leader>q',  '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap('n', '<leader>cf',  '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
   buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-  buf_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-  buf_set_keymap('n', '<leader>r', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<leader>r',  '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 end
 
 local servers = { "clangd", "rust_analyzer" }

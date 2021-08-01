@@ -12,6 +12,7 @@ env: ./base-env.sh
 install-nvim: nvim/init.nvim.tmpl
 	mkdir -p ${DESTDIR}/.config/nvim/
 	cp nvim/init.nvim.tmpl ${DESTDIR}/.config/nvim/init.vim
+	nvim --headless +PlugInstall +qa
 
 install-sway: sway/sway-config.tmpl sway/move-modes.conf.tmpl sway/background.jpg
 	mkdir -p ${DESTDIR}/.config/sway
