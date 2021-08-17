@@ -2,7 +2,7 @@ DESTDIR := ${HOME}
 
 # TODO: Use install instead of cp
 
-install: install-nvim install-sway install-terminal install-waybar install-zsh
+install: install-nvim install-sway install-terminal install-waybar install-zsh install-scripts
 
 install-theme: install-nvim install-sway install-waybar install-terminal
 
@@ -13,6 +13,11 @@ install-nvim: nvim/init.nvim.tmpl
 	mkdir -p ${DESTDIR}/.config/nvim/
 	cp nvim/init.nvim.tmpl ${DESTDIR}/.config/nvim/init.vim
 	nvim --headless +PlugInstall +qa
+
+install-scripts: scripts/*
+	# TODO: Only install some scripts on certian systems
+	mkdir -p ${DESTDIR}/.local/bin
+	cp scripts/* ${DESTDIR}/.local/bin
 
 install-sway: sway/sway-config.tmpl sway/move-modes.conf.tmpl sway/background.jpg
 	mkdir -p ${DESTDIR}/.config/sway
