@@ -1,0 +1,38 @@
+<% function arrows {
+operation=$1
+mods=${2-""}
+for f in \
+  '$left left' \
+  '$down down' \
+	'$up up' \
+	'$right right' \
+	'Left left' \
+	'Down down' \
+	'Up up' \
+	'Right right'; do
+set -- $f -%>
+bindsym <%= "$mods$1" -%> <%= $operation -%> <%= "$2" %>
+<% done } -%>
+
+<% function workspaces {
+operation=$1
+mods=${2-""}
+
+for i in $(seq 1 10); do
+desktop=$i
+key=$i
+if [[ $i -eq 10 ]]; then key=0; fi -%>
+
+bindsym <%= "$mods$key" -%> <%= $operation -%> <%= "$desktop" %>
+<% done } -%>
+
+<% function workspace_keys {
+operation=$1
+mods=${2-""}
+
+for i in "x 1" "c 2" "v 3" "s 4" "d 5" "f 6" "w 7" "e 8" "r 9" "Shift 10"; do
+	set -- $i
+	desktop=$2
+	key=$1 -%>
+bindsym <%= "$mods$key" -%> <%= $operation -%> <%= "$desktop" %>
+<% done } -%>
