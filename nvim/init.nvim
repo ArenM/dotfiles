@@ -146,7 +146,14 @@ call plug#begin('~/.config/nvim/plugged')
   " Plug 'glepnir/dashboard-nvim'
 
   " Completion
-  Plug 'hrsh7th/nvim-compe'
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-emoji'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'hrsh7th/cmp-nvim-lua'
+  Plug 'ray-x/cmp-treesitter'
+  Plug 'f3fora/cmp-spell'
+  Plug 'hrsh7th/nvim-cmp'
+
   Plug 'ray-x/lsp_signature.nvim'
   <% else -%>
   " Legacy Plugins
@@ -312,13 +319,6 @@ noremap <Leader>q <cmd>Telescope quickfix<CR>
 noremap <Leader>gs <cmd>Telescope git_status<CR>
 noremap <leader>gb <cmd>Telescope git_branch<CR>
 
-inoremap <silent><expr> <C-Space> compe#complete()
-inoremap <silent><expr> <CR>      compe#confirm(lexima#expand('<LT>CR>', 'i'))
-" inoremap <silent><expr> <CR>      compe#confirm('<CR>')
-inoremap <silent><expr> <C-e>     compe#close('<C-e>')
-inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
-inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
-
 let g:dashboard_default_executive = 'telescope'
 
 "
@@ -341,6 +341,7 @@ noremap <leader>trf <cmd>lua require("harpoon.term").sendCommand(1, 2)<cr>
 lua << EOS
 local nvim_lsp = require 'lspconfig'
 local telescope = require 'telescope'
+local cmp = require 'cmp'
 
 require'sniprun'.setup({
   display = {
@@ -350,32 +351,6 @@ require'sniprun'.setup({
 
 require'gitsigns'.setup {}
 -- require'trouble'.setup {}
-
-vim.o.completeopt = "menuone,noselect"
-require'compe'.setup {
-  enabled = true;
-  autocomplete = true;
-  debug = false;
-  min_length = 1;
-  preselect = 'enable';
-  throttle_time = 80;
-  source_timeout = 200;
-  resolve_timeout = 800;
-  incomplete_delay = 400;
-  max_abbr_width = 100;
-  max_kind_width = 100;
-  max_menu_width = 100;
-  documentation = true;
-
-  source = {
-    path = true;
-    buffer = true;
-    spell = true;
-    calc = true;
-    nvim_lsp = true;
-    nvim_lua = true;
-  };
-};
 
 telescope.setup{
   -- TODO: This isn't quite right, I should impliment the theme myself
@@ -439,6 +414,24 @@ require'nvim-treesitter.configs'.setup {
     enable = true
   },
 }
+
+cmp.setup({
+  mapping = {
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<CR>'] = cmp.mapping.confirm({select = true}),
+    ['<C-e>'] = cmp.mapping.close(), -- TODO: should this be esc?
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+  },
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'path' },
+    { name = 'nvim_lua' },
+    { name = 'treesitter' },
+    { name = 'emoji' },
+    { name = 'spell' },
+  }
+})
 
 local on_attach = function(client, buffer)
   -- require'lsp_signature'.on_attach()
