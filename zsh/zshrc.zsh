@@ -35,6 +35,10 @@ export EDITOR=nvim
 # alias e="$EDITOR"
 alias ls="ls --color"
 alias ll="ls -alh"
+alias :q="exit"
 if (( $+commands[yay] )); then
     alias yay="LESS=SR yay"
+fi
+if (( $+commands[paru] )); then
+    alias pa="paru"
 fi
