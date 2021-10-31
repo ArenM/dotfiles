@@ -42,8 +42,8 @@
     },
     "clock": {
         "tooltip-format": "{:%m %d %Y | %H:%M:%S}",
-        "format": "{:%A %B %e %l:%M %p}",
-        "format-alt": "{:%m %d %Y | %l:%M:%S %p}",
+        "format": "{:%A %B %e %I:%M %p}",
+        "format-alt": "{:%m %d %Y | %H:%M:%S %p}",
 	"interval": 1
     },
     // "cpu": {

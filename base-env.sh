@@ -10,6 +10,7 @@ ZSH_FEATURES=light
 # Application Specific Customization
 VIMWIKI=false
 NVIM_LUA=false
+unset SWAY_FULL_DESKTOP
 
 # Derived Variables
 if [ "$GLES3" = "true" ]; then

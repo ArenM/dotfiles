@@ -85,17 +85,28 @@ input "type:touchpad" {
     scroll_method edge
     events enabled
 }
+# Layouot Settings
+workspace_layout tabbed
+for_window [app_id="Alacritty · Popup"] floating enable
+for_window [title="Picture-in-Picture"]  floating enable
+# TODO: this might not be ergonomic on normal keyboards
+assign [title=".*Firefox.*"]  10
+assign [app_id="thunderbird"] 4
+assign [class="discord"]      4
 
 ### Startup Configuration
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+exec /usr/lib/polkit-kde-authentication-agent-1
 exec redshift -m wayland
 exec nextcloud
-exec oguri
-exec variety
+exec mako --max-visible 5
+exec wlsunset -t 2000 -T 6500 -l 43 -L -72
+# exec oguri
+# exec variety
 
 ### Appearance
-set $base16theme <%= $THEME %> 
-include ./base16-sway/themes/base16-$base16theme.config
-font pango:FontAwesome Regular 12px, Hack Regular 12px
+font pango:VictorMono Nerd Font Bold 11
+# font pango:FontAwesome Regular 12px, Hack Regular 12px
 
 ### Key bindings
 #
@@ -109,6 +120,7 @@ font pango:FontAwesome Regular 12px, Hack Regular 12px
 
     # start your launcher
     bindsym $mod+d exec $menu
+    bindsym $mod+Colon exec $menu
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -284,5 +296,12 @@ exec_always {
     gsettings set $gnome-schema icon-theme 'Tela-orange'
     gsettings set $gnome-schema cursor-theme 'Adwaita'
 }
+
+<% if [ -v "$SWAY_FULL_DESKTOP" ]; then -%>
+exec MOZ_ENABLE_WAYLAND=1 firefox-nightly
+exec MOZ_ENABLE_WAYLAND=1 thunderbird
+exec flatpak run com.discordapp.Discord --enable-features=UseOzonePlatform --ozone-platofrm=wayland
+exec element-desktop --enable-features=UseOzonePlatform --ozone-platofrm=wayland
+<% fi -%>
 
 include /etc/sway/config.d/*
