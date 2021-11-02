@@ -7,7 +7,7 @@ install: install-nvim install-sway install-terminal install-waybar install-zsh i
 
 install-theme: install-nvim install-sway install-waybar install-terminal
 
-env: ./base-env.sh
+env: ./base-env.sh ./env.sh ./generated-env.sh
 
 # TODO: Install vim-plug
 install-nvim: nvim/init.nvim.tmpl

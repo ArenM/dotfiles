@@ -1,25 +1,30 @@
 #! /usr/bin/env sh
 
-# Static Variables
-GLES3=true
-GTK_THEME=Breeze
-THEME=atelier-dune-light
-RICE=false
-ZSH_FEATURES=light
+# Themes
+# GTK_THEME=Breeze-Dark
+export GTK_THEME_LIGHT=Arc-Lighter
+export GTK_THEME_DARK=Arc-Dark
+
+# TODO: Deprecate THEME
+# Other good base16 themes are 
+#  - nord
+#  - atelier-dune-light
+#  - gruvbox-dark-medium
+#  - oceanicnext
+#  - solarized-light
+#  - pop
+export BASE16_THEME_LIGHT=atelier-plateau-light
+export BASE16_THEME_DARK=atelier-plateau
+
+# Eyecandy that wastes screen space
+export RICE=false
+
+# TERMINAL="alacritty"
+export TERMINAL="foot"
 
 # Application Specific Customization
-VIMWIKI=false
-NVIM_LUA=false
-unset SWAY_FULL_DESKTOP
-
-# Derived Variables
-if [ "$GLES3" = "true" ]; then
-  TERMINAL="alacritty"
-else
-  TERMINAL="termite"
-fi
-
-# User Overrides
-if [ -e env.sh ]; then
-  source ./env.sh
-fi
+# TODO: use -v and unset / set for these
+export VIMWIKI=false
+export NVIM_LUA=false
+export ZSH_FEATURES=light
+export SWAY_FULL_DESKTOP=false
