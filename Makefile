@@ -1,4 +1,5 @@
 DESTDIR := ${HOME}
+BINDIR := ${DESTDIR}/.local/bin
 
 # TODO: Use install instead of cp
 
@@ -15,9 +16,11 @@ install-nvim: nvim/init.nvim.tmpl
 	nvim --headless +PlugInstall +qa
 
 install-scripts: scripts/*
-	# TODO: Only install some scripts on certian systems
-	mkdir -p ${DESTDIR}/.local/bin
-	cp scripts/* ${DESTDIR}/.local/bin
+	# TODO: uninstall if mmcli isn't present
+	command -v mmcli > /dev/null && install -Dm 755 ./scripts/mm ${BINDIR}/mm
+	install -Dm 755 ./scripts/monitor-controls.sh ${BINDIR}/monitor-controls.sh
+	install -Dm 755 ./scripts/sway-exit-menu ${BINDIR}/sway-exit-menu
+	install -Dm 755 ./scripts/sway-prop ${BINDIR}/sway-prop
 
 install-sway: sway/sway-config.tmpl sway/move-modes.conf.tmpl sway/background.jpg
 	mkdir -p ${DESTDIR}/.config/sway

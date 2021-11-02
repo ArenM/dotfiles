@@ -1,8 +1,5 @@
-# Default config for sway
-#
-# Copy this to ~/.config/sway/config and edit it to your liking.
-#
-# Read `man 5 sway` for a complete reference.
+# Wishlist
+#  - named workspace & rename workspace
 
 ### Variables
 #
@@ -27,12 +24,6 @@ set $menu wofi --show drun --allow-images --allow-markup | swaymsg exec
 #output * bg $HOME/.cache/earthbg/image.jpg fit #000000
 # output * bg <%= $HOME -%>/.config/sway/background.jpg fill
 
-
-#
-# Example configuration:
-#
-#   output HDMI-A-1 resolution 1920x1080 position 1920,0
-#
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 output VGA-1 position 1366,0
 output LVDS-1 position 0,0
@@ -99,6 +90,7 @@ exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DE
 exec /usr/lib/polkit-kde-authentication-agent-1
 exec redshift -m wayland
 exec nextcloud
+# TODO: consider replacing with fnott
 exec mako --max-visible 5
 exec wlsunset -t 2000 -T 6500 -l 43 -L -72
 # exec oguri
@@ -134,7 +126,7 @@ font pango:VictorMono Nerd Font Bold 11
 
     # exit sway (logs you out of your Wayland session)
     #bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
-    bindsym $mod+Shift+e exec rofi -show off -modi off:/home/aren/.config/rofi/exit-sway.sh
+    bindsym $mod+Shift+e exec rofi -show off -modi off:~/.local/bin/sway-exit-menu
 
     # Monitor Controls, just brightness for now
     bindsym $mod+m exec ~/.local/bin/monitor-controls.sh
