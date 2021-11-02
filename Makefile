@@ -22,6 +22,7 @@ install-scripts: scripts/*
 	install -Dm 755 ./scripts/sway-exit-menu ${BINDIR}/sway-exit-menu
 	install -Dm 755 ./scripts/sway-prop ${BINDIR}/sway-prop
 	install -Dm 755 ./scripts/set-theme-sway.bash ${BINDIR}/set-theme-sway
+	install -Dm 755 ./scripts/set-theme-foot.sh ${BINDIR}/set-theme-foot
 	install -Dm 755 ./scripts/set-theme.sh ${BINDIR}/set-theme
 
 install-sway: sway/sway-config.tmpl sway/move-modes.conf.tmpl sway/background.jpg
