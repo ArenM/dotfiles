@@ -21,13 +21,14 @@ install-scripts: scripts/*
 	install -Dm 755 ./scripts/monitor-controls.sh ${BINDIR}/monitor-controls.sh
 	install -Dm 755 ./scripts/sway-exit-menu ${BINDIR}/sway-exit-menu
 	install -Dm 755 ./scripts/sway-prop ${BINDIR}/sway-prop
+	install -Dm 755 ./scripts/set-theme-sway.bash ${BINDIR}/set-theme-sway
 	install -Dm 755 ./scripts/set-theme.sh ${BINDIR}/set-theme
 
 install-sway: sway/sway-config.tmpl sway/move-modes.conf.tmpl sway/background.jpg
-	mkdir -p ${DESTDIR}/.config/sway
-	cp sway/sway-config.tmpl ${DESTDIR}/.config/sway/config
-	cp sway/move-modes.conf.tmpl ${DESTDIR}/.config/sway/move-modes.conf
-	cp sway/background.jpg ${DESTDIR}/.config/sway/background.jpg
+	install -Dm 644 sway/sway-config.tmpl ${DESTDIR}/.config/sway/config
+	install -Dm 644 sway/move-modes.conf.tmpl ${DESTDIR}/.config/sway/move-modes.conf
+	install -Dm 644 sway/colors.conf ${DESTDIR}/.config/sway/colors.conf
+	install -Dm 644 sway/background.jpg ${DESTDIR}/.config/sway/background.jpg
 	# Git repo https://github.com/rkubosz/base16-sway.git be put at
 	# ${DESTDIR}/.config/sway/base16-sway
 

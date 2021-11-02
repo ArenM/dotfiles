@@ -10,7 +10,7 @@ set_theme() {
     # TODO: I think this should set the gtk dark style preference (when it's available)
     # gsettings set org.gnome.desktop.interface color-scheme "$colorscheme"
 
-    # set-theme-sway "$base16_theme"
+    set-theme-sway "$base16_theme"
 
     # Set waybar theme; install waybar config and hope it reloads
     # Set foot theme; rebuild & reintall foot config
