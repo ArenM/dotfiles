@@ -1,2 +1,1 @@
-current_modem=$(mmcli -L | grep -o "Modem/[0-9]*" | head -n 1 | cut -d "/" -f 2) 
-mmcli -m ${current_modem} $@
+mmcli -m any $@
