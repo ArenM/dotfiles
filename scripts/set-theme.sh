@@ -13,7 +13,7 @@ set_theme() {
     set-theme-sway "$base16_theme"
 
     # Set waybar theme; install waybar config and hope it reloads
-    # Set foot theme; rebuild & reintall foot config
+    # Set rebuild & reintall foot config
     # Set nvim theme; TODO this one is difficult
 }
 
@@ -25,7 +25,7 @@ set_dark() {
     set_theme
 
     # tell zsh to set the terminals theme to dark
-    # killall -SIGUSR1 zsh
+    killall -SIGUSR1 zsh
 }
 
 set_light() {
@@ -36,7 +36,7 @@ set_light() {
     set_theme
 
     # tell zsh to set the terminals theme to light
-    # killall -SIGUSR2 zsh
+    killall -SIGUSR2 zsh
 }
 
 case $1 in

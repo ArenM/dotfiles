@@ -252,7 +252,7 @@ bar {
     swaybar_command waybar
 }
 
-include ./base16-sway/themes/base16-<%= $THEME %> .config
+include ./base16-sway/themes/base16-<%= $THEME %>.config
 include ./colors.conf
 
 default_border pixel 2
