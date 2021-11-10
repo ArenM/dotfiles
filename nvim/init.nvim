@@ -166,13 +166,6 @@ call plug#begin('~/.config/nvim/plugged')
   " Legacy Plugins
   Plug 'junegunn/fzf'
   Plug 'junegunn/fzf.vim', { 'on': ['Files', 'Buffers', 'Ag'] }
-  Plug 'wsdjeg/FlyGrep.vim', { 'on': [ 'FlyGrep' ] }
-  Plug 'cloudhead/neovim-fuzzy' "fzy
-
-  Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh', }
-
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-
   Plug 'airblade/vim-gitgutter'
   <% fi -%>
 
@@ -192,18 +185,10 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'michaelb/sniprun', {'do': 'bash ./install.sh'}
   " Code Coverage, maybe useful in the future
   " Plug 'retorillo/istanbul.vim'
-  Plug 'vim-test/vim-test'
+  Plug 'vim-test/vim-test', { 'on': [ 'TestNearest', 'TestFile', 'TestSuite' ] }
 
   " File Navigation
   Plug 'preservim/tagbar', { 'on': [ 'TagbarOpenAutoClose', 'Tagbar' ] }
-
-  " Auto Complete
-  " Plug 'prabirshrestha/asyncomplete.vim'
-  " Plug 'yami-beta/asyncomplete-omni.vim'
-  " Plug 'prabirshrestha/asyncomplete-file.vim'
-
-  " Plug 'roxma/nvim-yarp'
-  " Plug 'ncm2/ncm2'
 
   " Filetype Plugins
   " Plug 'sheerun/vim-polyglot'
@@ -511,56 +496,11 @@ for _, lsp in ipairs(servers) do
 end
 EOS
 <% else -%>
-" Deoplete
-" autocmd BufEnter * call deoplete#enable()
-let g:deoplete#enable_at_startup = 1
-inoremap <expr> <C-n> pumvisible() ? '<C-n>' : '<C-r>=deoplete#manual_complete()<CR>'
-inoremap <expr> <C-p> pumvisible() ? '<C-n>' : '<C-r>=deoplete#manual_complete()<CR>'
-
 " FZF
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 noremap <C-f> :Files<CR>
 noremap <Leader>f :Files<CR>
 noremap <Leader>b :Buffers<CR>
-
-nmap <silent> <Leader>o :Tagbar<CR>
-nmap <silent> <Leader>n :NERDTreeToggle<CR>
-
-" Fly Grep
-let g:FlyGrep_input_delay = 40
-nmap <Leader>g :FlyGrep<CR>
-
-" neovim-languageclient
-let g:LanguageClient_serverCommands = {
-  \ 'c': ['clangd'],
-  \ 'cpp': ['clangd'],
-  \ 'json': ['json-languageserver', '--stdio'],
-  \ 'python': ['pyls'],
-  \ 'rust': ['rust-analyzer'],
-  \ }
-
-
-" LanguageClient Key Bindings
-function SetupLSP()
-  set omnifunc=LanguageClient#omniComplete
-  set completefunc=LanguageClient#complete
-
-  nmap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-  nmap <silent> gt :call LanguageClient#textDocument_typeDefinition()<CR>
-  nmap <silent> gr :call LanguageClient#textDocument_references()<CR>
-
-  " nmap <Leader>o :call LanguageClient_textDocument_documentSymbol()<CR>
-
-  nmap <Leader>r :call LanguageClient#textDocument_rename()<CR>
-  nmap <Leader>= :call LanguageClient#textDocument_formatting()<CR>
-  vmap <Leader>= :call LanguageClient#textDocument_rangeFormatting()<CR>
-  nmap <Leader>a :call LanguageClient_textDocument_codeAction()<CR>
-endfunction()
-
-augroup LSP
-  au!
-  autocmd FileType c,cpp,json,python,rust call SetupLSP()
-augroup end
 <% fi -%>
 
 " vim: syntax=vim
