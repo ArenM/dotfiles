@@ -24,6 +24,7 @@ install-scripts: scripts/*
 	install -Dm 755 ./scripts/set-theme-sway.bash ${BINDIR}/set-theme-sway
 	install -Dm 755 ./scripts/set-theme-foot.sh ${BINDIR}/set-theme-foot
 	install -Dm 755 ./scripts/set-theme.sh ${BINDIR}/set-theme
+	install -Dm 755 ./scripts/temp_mute.sh ${BINDIR}/temp_mute
 
 install-sway: sway/sway-config.tmpl sway/move-modes.conf.tmpl sway/background.jpg
 	install -Dm 644 sway/sway-config.tmpl ${DESTDIR}/.config/sway/config
