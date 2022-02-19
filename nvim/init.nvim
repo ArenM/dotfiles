@@ -312,10 +312,11 @@ noremap <Leader>bb <cmd>Telescope buffers<CR>
 " noremap <Leader>b <cmd>:lua telescope_buffer_hints<CR> " TODO
 
 noremap <Leader>g <cmd>Telescope live_grep<CR>
+noremap g*        <cmd>lua require('telescope.builtin').grep_string({search = vim.fn.expand("<cword>")})<cr>
 noremap <Leader>q <cmd>Telescope quickfix<CR>
 
 noremap <Leader>gs <cmd>Telescope git_status<CR>
-noremap <leader>gb <cmd>Telescope git_branch<CR>
+noremap <leader>gb <cmd>Telescope git_branchs<CR>
 
 let g:dashboard_default_executive = 'telescope'
 
