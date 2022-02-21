@@ -75,8 +75,17 @@ set undofile
 set undolevels=10000
 set undoreload=100000
 
-" Enable spell checking for some buffer types
-autocmd FileType gitcommit,markdown,vimwiki setlocal spell
+"
+" Special filetype settings
+"
+function ConfigureEmail()
+  setlocal textwidth=72
+  setlocal commentstring=>\ %s
+  setlocal colorcolumn=73
+endfunction
+
+autocmd FileType gitcommit,mail,markdown,vimwiki,eml setlocal spell
+autocmd FileType gitcommit,mail,eml call ConfigureEmail()
 
 "
 " Folding styles
