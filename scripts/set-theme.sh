@@ -8,7 +8,7 @@ set_theme() {
     echo "setting base16 theme to $base16_theme"
     gsettings set org.gnome.desktop.interface gtk-theme "$gtk_theme"
     # TODO: I think this should set the gtk dark style preference (when it's available)
-    # gsettings set org.gnome.desktop.interface color-scheme "$colorscheme"
+    gsettings set org.gnome.desktop.interface color-scheme "$colorscheme"
 
     # set-theme-sway "$base16_theme"
 
@@ -20,7 +20,7 @@ set_theme() {
 set_dark() {
     gtk_theme="$GTK_THEME_DARK"
     base16_theme="$BASE16_THEME_DARK"
-    colorscheme=1
+    colorscheme="prefer-dark"
 
     set_theme
 
@@ -31,7 +31,7 @@ set_dark() {
 set_light() {
     gtk_theme="$GTK_THEME_LIGHT"
     base16_theme="$BASE16_THEME_LIGHT"
-    colorscheme=2 # note: unused until dark style preference is implemented
+    colorscheme="default"
 
     set_theme
 
