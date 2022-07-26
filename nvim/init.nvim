@@ -171,6 +171,10 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'f3fora/cmp-spell'
   Plug 'hrsh7th/nvim-cmp'
 
+  " a snippet engine is required for cmp
+  Plug 'hrsh7th/cmp-vsnip'
+  Plug 'hrsh7th/vim-vsnip'
+
   Plug 'ray-x/lsp_signature.nvim'
   <% else -%>
   " Legacy Plugins
@@ -479,13 +483,18 @@ require'nvim-treesitter.configs'.setup {
 }
 
 cmp.setup({
-  mapping = {
+  snippet = {
+    expand = function(args)
+      vim.fn["vsnip#anonymous"](args.body)
+    end,
+  },
+  mapping = cmp.mapping.preset.insert({
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<CR>'] = cmp.mapping.confirm({select = true}),
     ['<C-e>'] = cmp.mapping.close(), -- TODO: should this be esc?
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-  },
+  }),
   sources = {
     { name = 'nvim_lsp' },
     { name = 'path' },
@@ -496,8 +505,11 @@ cmp.setup({
   }
 })
 
-local on_attach = function(client, buffer)
-  -- require'lsp_signature'.on_attach()
+cmp.setup.filetype({ 'markdown', 'help' }, {
+  completion = {
+    autocomplete = false
+  }
+})
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
