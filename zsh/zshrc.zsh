@@ -32,6 +32,9 @@ fi
 
 export EDITOR=nvim
 
+trap "set-theme-foot -d" USR1
+trap "set-theme-foot -l" USR2
+
 # alias e="$EDITOR"
 alias ls="ls --color"
 alias ll="ls -alh"

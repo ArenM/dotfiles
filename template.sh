@@ -3,6 +3,6 @@
 set -a
 
 ESH=vendor/esh/esh
-source ./base-env.sh
+eval "$(./eval-env.sh)"
 
-$ESH $1
+$ESH "$1"
