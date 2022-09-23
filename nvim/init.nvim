@@ -75,8 +75,17 @@ set undofile
 set undolevels=10000
 set undoreload=100000
 
-" Enable spell checking for some buffer types
-autocmd FileType gitcommit,markdown,vimwiki setlocal spell
+"
+" Special filetype settings
+"
+function ConfigureEmail()
+  setlocal textwidth=72
+  setlocal commentstring=>\ %s
+  setlocal colorcolumn=73
+endfunction
+
+autocmd FileType gitcommit,mail,markdown,vimwiki,eml setlocal spell
+autocmd FileType gitcommit,mail,eml call ConfigureEmail()
 
 "
 " Folding styles
@@ -93,7 +102,8 @@ function FoldCondition()
 endfunction
 
 function EnableFolding()
-  setlocal foldmethod=syntax
+  set foldmethod=expr
+  set foldexpr=nvim_treesitter#foldexpr()
   setlocal foldlevel=0
   setlocal foldcolumn=1
 endfunction
@@ -160,6 +170,10 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'ray-x/cmp-treesitter'
   Plug 'f3fora/cmp-spell'
   Plug 'hrsh7th/nvim-cmp'
+
+  " a snippet engine is required for cmp
+  Plug 'hrsh7th/cmp-vsnip'
+  Plug 'hrsh7th/vim-vsnip'
 
   Plug 'ray-x/lsp_signature.nvim'
   <% else -%>
@@ -312,10 +326,11 @@ noremap <Leader>bb <cmd>Telescope buffers<CR>
 " noremap <Leader>b <cmd>:lua telescope_buffer_hints<CR> " TODO
 
 noremap <Leader>g <cmd>Telescope live_grep<CR>
+noremap g*        <cmd>lua require('telescope.builtin').grep_string({search = vim.fn.expand("<cword>")})<cr>
 noremap <Leader>q <cmd>Telescope quickfix<CR>
 
 noremap <Leader>gs <cmd>Telescope git_status<CR>
-noremap <leader>gb <cmd>Telescope git_branch<CR>
+noremap <leader>gb <cmd>Telescope git_branchs<CR>
 
 let g:dashboard_default_executive = 'telescope'
 
@@ -354,8 +369,38 @@ require'sniprun'.setup({
   }
 })
 
-require'gitsigns'.setup {}
--- require'trouble'.setup {}
+require'gitsigns'.setup {
+  on_attach = function(bufnr)
+    local gs = package.loaded.gitsigns
+    local opts = { noremap=true, silent=true }
+
+    -- local function map(mode, l, r, opts)
+    --   opts.buffer = bufnr
+    --   vim.keymap.set(mode, l, r, opts)
+    -- end
+
+    local function map(mode, lhs, rhs, opts)
+      opts = opts or { noremap=true, silent=true }
+      vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
+    end
+
+    -- Navigation
+    map('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
+    map('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
+
+    -- Actions
+    map('n', '<leader>hs', '<cmd>Gitsigns stage_hunk<CR>')
+    map('v', '<leader>hs', '<cmd>\'<,\'>Gitsigns stage_hunk<CR>')
+    map('n', '<leader>hr', '<cmd>Gitsigns reset_hunk<CR>')
+    map('v', '<leader>hr', '<cmd>\'<,\'>Gitsigns reset_hunk<CR>')
+    map('n', '<leader>hu', '<cmd>Gitsigns undo_stage_hunk<CR>')
+    map('n', '<leader>hp', '<cmd>Gitsigns preview_hunk<CR>')
+    map('n', '<leader>hb', '<cmd>Gitsigns blame_line<CR>')
+    map('n', '<leader>tb', '<cmd>Gitsigns toggle_current_line_blame<CR>')
+    map('n', '<leader>hd', '<cmd>Gitsigns diffthis<CR>')
+    map('n', '<leader>td', '<cmd>Gitsigns toggle_deleted<CR>')
+  end
+}
 
 telescope.setup{
   -- TODO: This isn't quite right, I should impliment the theme myself
@@ -438,13 +483,18 @@ require'nvim-treesitter.configs'.setup {
 }
 
 cmp.setup({
-  mapping = {
+  snippet = {
+    expand = function(args)
+      vim.fn["vsnip#anonymous"](args.body)
+    end,
+  },
+  mapping = cmp.mapping.preset.insert({
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<CR>'] = cmp.mapping.confirm({select = true}),
     ['<C-e>'] = cmp.mapping.close(), -- TODO: should this be esc?
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-  },
+  }),
   sources = {
     { name = 'nvim_lsp' },
     { name = 'path' },
@@ -455,8 +505,11 @@ cmp.setup({
   }
 })
 
-local on_attach = function(client, buffer)
-  -- require'lsp_signature'.on_attach()
+cmp.setup.filetype({ 'markdown', 'help' }, {
+  completion = {
+    autocomplete = false
+  }
+})
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
@@ -465,6 +518,9 @@ local on_attach = function(client, buffer)
 
   -- Mappings.
   local opts = { noremap=true, silent=true }
+
+  -- Use LSP as the handler for formatexpr.
+  vim.api.nvim_buf_set_option(0, 'formatexpr', 'v:lua.vim.lsp.formatexpr()')
 
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   -- TODO: replace with gbrlsnchs/telescope-lsp-handlers.nvim
@@ -484,7 +540,6 @@ local on_attach = function(client, buffer)
   buf_set_keymap('n', '[d',         '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d',         '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', '<leader>q',  '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-  buf_set_keymap('n', '<leader>cf',  '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
   buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   buf_set_keymap('n', '<leader>r',  '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 end
