@@ -15,17 +15,52 @@ set ignorecase
 set smartcase
 set timeoutlen=300
 
+set shiftwidth=2
+set expandtab
+set smarttab
+set smartindent
+
 set textwidth=80
 set colorcolumn=85
+" wrap is disabled by default, but configure it to be nicer when it is enabled
 set nowrap
+set linebreak
+set breakindent
 
 set inccommand=split
+
+" Useful for working on syntax highlighting
+" Call to get the syntax types under the cursor
+function! SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+
+" show whitespace characters
+" Possible nbsp characters: ☠, ?, ⍽, ▆, ⛛
+function CustomHilights()
+  match TrailingSpace /[[:space:]]\+$/
+
+  hi TrailingSpace guibg=Red ctermbg=Red
+  hi clear SpellCap " More often than not this is intentional
+endfunction
+
+set list
+set listchars=eol:¬,tab:<·>,multispace:␣,lead:·,trail:~,extends:>,precedes:<,nbsp:⛛
+autocmd ColorScheme * call CustomHilights()
 
 " Font for when neovim is running in a gui
 set guifont=InputMono
 
+"
+" Basic key bindings which don't require plugins
+"
+
 " Treat movement in wrapped lines like moving in normal lines
 " TODO: make moving [count] lines skip this
+" Perhaps see cpo-n
 noremap k gk
 noremap j gj
 
@@ -41,11 +76,23 @@ nnoremap U <c-r>
 map <Space> <leader>
 
 " Get out of terminal mode a bit easier
-tnoremap \<esc>     <c-\><c-n>
-tnoremap <c-z><c-z> <c-\><c-n>
+tnoremap <esc>      <c-\><c-n>
+tnoremap <s-esc>    <esc>
 
 " Clear search highlight
 noremap <leader>ch <cmd>noh<cr>
+
+" Enable soft word wrap instead fo inserting EOLs
+function ToggleWW()
+  if &l:wrap " non zero -- disable
+    set nowrap
+    set formatoptions+=tc
+  else "zero -- enable
+    set wrap
+    set formatoptions-=tc
+  endif
+endfunction
+map <leader>w <cmd>call ToggleWW()<CR>
 
 " Buffer switching
 noremap <Tab> :bnext<CR>
@@ -86,6 +133,7 @@ endfunction
 
 autocmd FileType gitcommit,mail,markdown,vimwiki,eml setlocal spell
 autocmd FileType gitcommit,mail,eml call ConfigureEmail()
+autocmd FileType zig setlocal commentstring=//\ %s
 
 "
 " Folding styles
@@ -187,12 +235,14 @@ call plug#begin('~/.config/nvim/plugged')
   " TODO: Replace with fzy for better search results
   Plug 'scrooloose/nerdtree', { 'on': [ 'NERDTreeToggle', 'NERDTree' ] }
   Plug 'tpope/vim-eunuch', { 'on': [ 'Rename', 'Chmod', 'Mkdir', 'SudoWrite', 'SudoEdit' ] }
+  Plug 'tpope/vim-sleuth'
 
   " Buffer Minaplion
   Plug 'Shougo/echodoc.vim'
   Plug 'tpope/vim-commentary'
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-repeat'
+  Plug 'tpope/vim-abolish'
   Plug 'junegunn/vim-easy-align'
   " Auto pairs
   Plug 'cohama/lexima.vim'
@@ -229,6 +279,9 @@ call plug#begin('~/.config/nvim/plugged')
       \ 'for': ['markdown', 'vim-plug']
   \ }
 call plug#end()
+
+" nvim-cmp
+set completeopt=menu,menuone,noselect
 
 " override changes in polyglot and prompt when a swap file exists
 set shortmess-=A
@@ -330,7 +383,7 @@ noremap g*        <cmd>lua require('telescope.builtin').grep_string({search = vi
 noremap <Leader>q <cmd>Telescope quickfix<CR>
 
 noremap <Leader>gs <cmd>Telescope git_status<CR>
-noremap <leader>gb <cmd>Telescope git_branchs<CR>
+noremap <leader>gb <cmd>Telescope git_branches<CR>
 
 let g:dashboard_default_executive = 'telescope'
 
