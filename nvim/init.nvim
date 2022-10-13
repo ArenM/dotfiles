@@ -271,9 +271,6 @@ call plug#begin('~/.config/nvim/plugged')
 
   " Extra Tools
   Plug 'tweekmonster/startuptime.vim', { 'on': [ 'StartupTime' ] }
-  <% if $VIMWIKI; then -%>
-  Plug 'vimwiki/vimwiki'
-  <% fi -%>
   Plug 'iamcco/markdown-preview.nvim', {
       \ 'do': { -> mkdp#util#install() },
       \ 'for': ['markdown', 'vim-plug']
@@ -301,19 +298,15 @@ autocmd FileType scheme RainbowToggleOn
 
 " Somethiing with spaces aftrward for testing          
 
-<% if $VIMWIKI; then -%>
-"\ {'path': '~/Nextcloud/school/ksc/Optics 199/notes/',
-let g:vimwiki_list = [
-\ {'path': '~/Nextcloud/personal-wiki/',
-\  'path_html': '/tmp/optics_notes_rendered/',
-\  'template_path': '~/Nextcloud/school/ksc/Optics 199/notes/templates/',
-\  'template_default': 'default',
-\  'template_ext': '.html',
-\  'html_template': '/home/aren/Nextcloud/school/ksc/Optics 199/notes/templates/default.html'
-\ }]
+" TODO: it might be fun to handle fils with spaces
+autocmd filetype vimwiki,markdown setlocal suffixesadd=.wiki,.md
 
-let g:vimiwki_filetypes = [ ]
-<% fi -%>
+function! EditNotes()
+  cd ~/Nextcloud/personal-wiki
+  edit ~/Nextcloud/personal-wiki/index.md
+endfunc
+
+map <silent> <leader>ww <cmd>call EditNotes()<CR>
 
 let g:languagetool_cmd='/usr/bin/languagetool'
 
