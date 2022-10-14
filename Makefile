@@ -3,7 +3,7 @@ BINDIR := ${DESTDIR}/.local/bin
 
 # TODO: Use install instead of cp
 
-install: install-nvim install-sway install-terminal install-waybar install-zsh install-scripts
+install: install-nvim install-paru install-scripts install-sway install-terminal install-waybar install-zsh
 
 install-theme: install-nvim install-sway install-waybar install-terminal
 
@@ -14,6 +14,9 @@ install-nvim: nvim/init.nvim.tmpl
 	mkdir -p ${DESTDIR}/.config/nvim/
 	cp nvim/init.nvim.tmpl ${DESTDIR}/.config/nvim/init.vim
 	nvim --headless +PlugInstall +qa
+
+install-paru: paru/paru.conf.tmpl
+	install -Dm 644 paru/paru.conf.tmpl ${DESTDIR}/.config/paru/paru.conf
 
 install-scripts: scripts/*
 	# TODO: uninstall if mmcli isn't present
