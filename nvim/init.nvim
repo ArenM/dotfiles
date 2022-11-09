@@ -590,10 +590,15 @@ cmp.setup.filetype({ 'markdown', 'help' }, {
   buf_set_keymap('n', '<leader>r',  '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 end
 
-local servers = { "clangd", "rust_analyzer" }
--- TODO: This causes an error when going into insert mode "Not allowed here"
+-- TODO: generate this list based on installed servers
+local servers = { "clangd", "rust_analyzer", "pyright", "zls"}
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
 for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup { on_attach = on_attach }
+  nvim_lsp[lsp].setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+  }
 end
 EOS
 <% else -%>
